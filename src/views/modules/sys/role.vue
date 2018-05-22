@@ -2,12 +2,12 @@
   <div class="mod-role">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.roleName" placeholder="角色名称" clearable></el-input>
+        <el-input v-model="dataForm.roleName" placeholder="角色名称"  size="small" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('sys:role:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('sys:role:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button @click="getDataList()"  size="small" icon="el-icon-search">查询</el-button>
+        <el-button v-if="isAuth('sys:role:save')" type="primary" @click="addOrUpdateHandle()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
+        <el-button v-if="isAuth('sys:role:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0"  size="small" icon="el-icon-delete">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -55,8 +55,12 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="isAuth('sys:role:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.roleId)">修改</el-button>
-          <el-button v-if="isAuth('sys:role:delete')" type="text" size="small" @click="deleteHandle(scope.row.roleId)">删除</el-button>
+          <el-tooltip content="修改" :open-delay="1500" :hide-after="5000">
+            <el-button v-if="isAuth('sys:role:update')" type="primary" icon="el-icon-edit"  size="mini" @click="addOrUpdateHandle(scope.row.roleId)" circle></el-button>
+          </el-tooltip>
+          <el-tooltip content="删除" :open-delay="1500" :hide-after="5000">
+            <el-button v-if="isAuth('sys:role:delete')" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandle(scope.row.roleId)" circle></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>

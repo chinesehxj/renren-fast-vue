@@ -1,13 +1,13 @@
 <template>
-  <div class="mod-user">
+  <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.userName" size="small" placeholder="用户名" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()" size="small" icon="el-icon-search">查询</el-button>
-        <el-button v-if="isAuth('sys:user:save')" type="primary" @click="addOrUpdateHandle()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
-        <el-button v-if="isAuth('sys:user:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-delete">批量删除</el-button>
+        <el-button @click="getDataList()">查询</el-button>
+        <el-button v-if="isAuth('server:hmcarrier:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('server:hmcarrier:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -15,7 +15,7 @@
       border
       v-loading="dataListLoading"
       @selection-change="selectionChangeHandle"
-      style="width: 100%; " :row-style="{'height':'10px'}">
+      style="width: 100%;">
       <el-table-column
         type="selection"
         header-align="center"
@@ -23,46 +23,22 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="userId"
+        prop="carrierusn"
         header-align="center"
         align="center"
-        width="80"
-        label="ID">
+        label="carrierusn">
       </el-table-column>
       <el-table-column
-        prop="username"
+        prop="carrierpsn"
         header-align="center"
         align="center"
-        label="用户名">
+        label="carrierpsn">
       </el-table-column>
       <el-table-column
-        prop="email"
+        prop="recordtime"
         header-align="center"
         align="center"
-        label="邮箱">
-      </el-table-column>
-      <el-table-column
-        prop="mobile"
-        header-align="center"
-        align="center"
-        label="手机号">
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        header-align="center"
-        align="center"
-        label="状态">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" size="small" type="danger">禁用</el-tag>
-          <el-tag v-else size="small">正常</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        header-align="center"
-        align="center"
-        width="180"
-        label="创建时间">
+        label="recordtime">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -70,13 +46,9 @@
         align="center"
         width="150"
         label="操作">
-        <template slot-scope="scope" >
-          <el-tooltip content="修改" :open-delay="1500" :hide-after="5000">
-            <el-button v-if="isAuth('sys:user:update')" type="primary" icon="el-icon-edit"  size="mini" @click="addOrUpdateHandle(scope.row.userId)" circle></el-button>
-          </el-tooltip>
-          <el-tooltip content="删除" :open-delay="1500" :hide-after="5000">
-            <el-button v-if="isAuth('sys:user:delete')" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandle(scope.row.userId)" circle></el-button>
-          </el-tooltip>
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.carrierusn)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.carrierusn)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -95,12 +67,13 @@
 </template>
 
 <script>
-  import AddOrUpdate from './user-add-or-update'
+  import API from '@/api/modules/hmcarrier'
+  import AddOrUpdate from './add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          userName: ''
+          key: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -121,22 +94,18 @@
       // 获取数据列表
       getDataList () {
         this.dataListLoading = true
-        this.$http({
-          url: this.$http.adornUrl('/sys/user/list'),
-          method: 'get',
-          params: this.$http.adornParams({
-            'page': this.pageIndex,
-            'limit': this.pageSize,
-            'username': this.dataForm.userName
+        var params = {
+        }
+        API.list(params).then(({data}) => {
+          console.log(data)
+          this.dataList = data
+          this.$message({
+            message: data,
+            type: 'success',
+            duration: 1500,
+            onClose: () => {
+            }
           })
-        }).then(({data}) => {
-          if (data && data.code === 0) {
-            this.dataList = data.page.list
-            this.totalPage = data.page.totalCount
-          } else {
-            this.dataList = []
-            this.totalPage = 0
-          }
           this.dataListLoading = false
         })
       },
@@ -164,19 +133,15 @@
       },
       // 删除
       deleteHandle (id) {
-        var userIds = id ? [id] : this.dataListSelections.map(item => {
-          return item.userId
+        var ids = id ? [id] : this.dataListSelections.map(item => {
+          return item.carrierusn
         })
-        this.$confirm(`确定对[id=${userIds.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http({
-            url: this.$http.adornUrl('/sys/user/delete'),
-            method: 'post',
-            data: this.$http.adornData(userIds, false)
-          }).then(({data}) => {
+          API.del(ids).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
                 message: '操作成功',

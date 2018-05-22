@@ -9,8 +9,11 @@ import '@/element-ui-theme'
 import '@/assets/scss/index.scss'
 import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/axios
 import { isAuth } from '@/utils'
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
 
 Vue.use(VueCookie)
+Vue.use(iView)
 Vue.config.productionTip = false
 
 // 非生产环境, 适配mockjs模拟数据                 // api: https://github.com/nuysoft/Mock

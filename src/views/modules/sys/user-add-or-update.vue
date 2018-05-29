@@ -2,15 +2,15 @@
   <el-dialog
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
-    :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    :visible.sync="visible" width="600px">
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" size="small" label-width="100px">
       <el-form-item label="用户名" prop="userName">
         <el-input v-model="dataForm.userName" placeholder="登录帐号"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="comfirmPassword" :class="{ 'is-required': !dataForm.id }">
+      <el-form-item label="确认密码" prop="comfirmPassword" :class="{ 'is-required': !dataForm.id }" >
         <el-input v-model="dataForm.comfirmPassword" type="password" placeholder="确认密码"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
@@ -18,6 +18,16 @@
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="dataForm.mobile" placeholder="手机号"></el-input>
+      </el-form-item>
+      <el-form-item label="所属机构" prop="companyId">
+        <el-select v-model="dataForm.companyId" filterable placeholder="请选择(支持搜索)">
+          <el-option
+            v-for="item in options"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="角色" size="mini" prop="roleIdList">
         <el-checkbox-group v-model="dataForm.roleIdList">
@@ -72,9 +82,17 @@
           callback()
         }
       }
+      var validateCompanyId = (rule, value, callback) => {
+        if (!this.dataForm.companyId && !/\S/.test(value)) {
+          callback(new Error('所属机构不能为空'))
+        } else {
+          callback()
+        }
+      }
       return {
         visible: false,
         roleList: [],
+        options: [],
         dataForm: {
           id: 0,
           userName: '',
@@ -83,6 +101,7 @@
           salt: '',
           email: '',
           mobile: '',
+          companyId: '',
           roleIdList: [],
           status: 1
         },
@@ -103,6 +122,10 @@
           mobile: [
             { required: true, message: '手机号不能为空', trigger: 'blur' },
             { validator: validateMobile, trigger: 'blur' }
+          ],
+          companyId: [
+            { required: true, message: '所属机构不能为空', trigger: 'blur' },
+            { validator: validateCompanyId, trigger: 'blur' }
           ]
         }
       }
@@ -116,6 +139,18 @@
           params: this.$http.adornParams()
         }).then(({data}) => {
           this.roleList = data && data.code === 0 ? data.list : []
+        }).then(() => {
+          this.$http({
+            url: this.$http.adornUrl('/sys/company/list'),
+            method: 'get',
+            params: this.$http.adornParams({
+              'pageIndex': '',
+              'pageSize': '',
+              'name': ''
+            })
+          }).then(({data}) => {
+            this.options = data && data.code === 0 ? data.page : []
+          })
         }).then(() => {
           this.visible = true
           this.$nextTick(() => {
@@ -135,6 +170,7 @@
                 this.dataForm.mobile = data.user.mobile
                 this.dataForm.roleIdList = data.user.roleIdList
                 this.dataForm.status = data.user.status
+                this.dataForm.companyId = data.user.companyId
               }
             })
           }
@@ -155,7 +191,8 @@
                 'email': this.dataForm.email,
                 'mobile': this.dataForm.mobile,
                 'status': this.dataForm.status,
-                'roleIdList': this.dataForm.roleIdList
+                'roleIdList': this.dataForm.roleIdList,
+                'companyId': this.dataForm.companyId
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

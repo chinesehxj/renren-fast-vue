@@ -23,16 +23,16 @@ import {
   InputNumber,
   Radio,
   RadioGroup,
-  // RadioButton,
+  RadioButton,
   Checkbox,
-  // CheckboxButton,
+  CheckboxButton,
   CheckboxGroup,
-  // Switch,
-  // Select,
-  // Option,
-  // OptionGroup,
+  Switch,
+  Select,
+  Option,
+  OptionGroup,
   Button,
-  // ButtonGroup,
+  ButtonGroup,
   Table,
   TableColumn,
   // DatePicker,
@@ -54,7 +54,7 @@ import {
   Row,
   Col,
   Upload,
-  // Progress,
+  Progress,
   Badge,
   Card,
   // Rate,
@@ -92,16 +92,16 @@ Vue.use(Input)
 Vue.use(InputNumber)
 Vue.use(Radio)
 Vue.use(RadioGroup)
-// Vue.use(RadioButton)
+Vue.use(RadioButton)
 Vue.use(Checkbox)
-// Vue.use(CheckboxButton)
+Vue.use(CheckboxButton)
 Vue.use(CheckboxGroup)
-// Vue.use(Switch)
-// Vue.use(Select)
-// Vue.use(Option)
-// Vue.use(OptionGroup)
+Vue.use(Switch)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(OptionGroup)
 Vue.use(Button)
-// Vue.use(ButtonGroup)
+Vue.use(ButtonGroup)
 Vue.use(Table)
 Vue.use(TableColumn)
 // Vue.use(DatePicker)
@@ -123,7 +123,7 @@ Vue.use(Icon)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Upload)
-// Vue.use(Progress)
+Vue.use(Progress)
 Vue.use(Badge)
 Vue.use(Card)
 // Vue.use(Rate)

@@ -99,13 +99,6 @@
         API.list(params).then(({data}) => {
           console.log(data)
           this.dataList = data
-          this.$message({
-            message: data,
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-            }
-          })
           this.dataListLoading = false
         })
       },

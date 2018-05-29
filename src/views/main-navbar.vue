@@ -3,7 +3,7 @@
     <div class="site-navbar__header">
       <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
         <a class="site-navbar__brand-lg" href="javascript:;">冰水雾开发平台</a>
-        <a class="site-navbar__brand-mini" href="javascript:;">冰水雾</a>
+        <a class="site-navbar__brand-mini" href="javascript:;"><icon-svg name="all"></icon-svg></a>
       </h1>
     </div>
     <div class="site-navbar__body clearfix">

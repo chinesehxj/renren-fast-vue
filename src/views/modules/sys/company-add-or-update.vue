@@ -58,16 +58,20 @@
         },
         dataRule: {
           name: [
-            { required: true, message: '机构名称不能为空', trigger: 'blur' }
+            { required: true, message: '机构名称不能为空', trigger: 'blur' },
+            { min: 1, max: 100, message: '不得超过100个字符', trigger: 'blur' }
           ],
           code: [
-            { required: true, message: '机构编码不能为空', trigger: 'blur' }
+            { required: true, message: '机构编码不能为空', trigger: 'blur' },
+            { min: 1, max: 100, message: '不得超过100个字符', trigger: 'blur' }
           ],
           address: [
-            { required: true, message: '机构地址不能为空', trigger: 'blur' }
+            { required: true, message: '机构地址不能为空', trigger: 'blur' },
+            { min: 1, max: 150, message: '不得超过150个字符', trigger: 'blur' }
           ],
           contact: [
-            { required: true, message: '联系人不能为空', trigger: 'blur' }
+            { required: true, message: '联系人不能为空', trigger: 'blur' },
+            { min: 1, max: 30, message: '不得超过30个字符', trigger: 'blur' }
           ],
           phone: [
             { required: true, message: '联系电话不能为空', trigger: 'blur' },

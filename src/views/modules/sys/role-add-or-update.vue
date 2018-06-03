@@ -46,7 +46,11 @@
         },
         dataRule: {
           roleName: [
-            { required: true, message: '角色名称不能为空', trigger: 'blur' }
+            { required: true, message: '角色名称不能为空', trigger: 'blur' },
+            { min: 1, max: 20, message: '不得超过20个字符', trigger: 'blur' }
+          ],
+          remark: [
+            { min: 1, max: 100, message: '不得超过100个字符', trigger: 'blur' }
           ]
         },
         tempKey: -666666 // 临时key, 用于解决tree半选中状态项不能传给后台接口问题. # 待优化

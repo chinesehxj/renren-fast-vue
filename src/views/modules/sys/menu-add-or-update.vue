@@ -104,7 +104,8 @@
         },
         dataRule: {
           name: [
-            { required: true, message: '菜单名称不能为空', trigger: 'blur' }
+            { required: true, message: '名称不能为空', trigger: 'blur' },
+            { min: 1, max: 30, message: '不得超过30个字符', trigger: 'blur' }
           ],
           parentName: [
             { required: true, message: '上级菜单不能为空', trigger: 'change' }

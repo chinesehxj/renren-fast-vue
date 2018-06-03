@@ -7,6 +7,9 @@
       <el-form-item label="用户名" prop="userName">
         <el-input v-model="dataForm.userName" placeholder="登录帐号"></el-input>
       </el-form-item>
+      <el-form-item label="姓名" prop="realName">
+        <el-input v-model="dataForm.realName" placeholder="真实姓名"></el-input>
+      </el-form-item>
       <el-form-item label="密码" prop="password" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
       </el-form-item>
@@ -96,6 +99,7 @@
         dataForm: {
           id: 0,
           userName: '',
+          realName: '',
           password: '',
           comfirmPassword: '',
           salt: '',
@@ -107,7 +111,12 @@
         },
         dataRule: {
           userName: [
-            { required: true, message: '用户名不能为空', trigger: 'blur' }
+            { required: true, message: '用户名不能为空', trigger: 'blur' },
+            { min: 1, max: 30, message: '不得超过30个字符', trigger: 'blur' }
+          ],
+          realName: [
+            { required: true, message: '真实姓名不能为空', trigger: 'blur' },
+            { min: 1, max: 30, message: '不得超过30个字符', trigger: 'blur' }
           ],
           password: [
             { validator: validatePassword, trigger: 'blur' }
@@ -117,6 +126,7 @@
           ],
           email: [
             { required: true, message: '邮箱不能为空', trigger: 'blur' },
+            { min: 1, max: 100, message: '不得超过100个字符', trigger: 'blur' },
             { validator: validateEmail, trigger: 'blur' }
           ],
           mobile: [
@@ -165,6 +175,7 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.dataForm.userName = data.user.username
+                this.dataForm.realName = data.user.realName
                 this.dataForm.salt = data.user.salt
                 this.dataForm.email = data.user.email
                 this.dataForm.mobile = data.user.mobile
@@ -186,6 +197,7 @@
               data: this.$http.adornData({
                 'userId': this.dataForm.id || undefined,
                 'username': this.dataForm.userName,
+                'realName': this.dataForm.realName,
                 'password': this.dataForm.password,
                 'salt': this.dataForm.salt,
                 'email': this.dataForm.email,

@@ -1,13 +1,13 @@
 <template>
-  <div class="mod-user">
+  <div class="mod-server">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.userName" size="small" placeholder="用户名" clearable></el-input>
+        <el-input v-model="dataForm.owners" size="small" placeholder="负责人" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()" size="small" icon="el-icon-search">查询</el-button>
-        <el-button v-if="isAuth('sys:user:save')" type="primary" @click="addOrUpdateHandle()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
-        <el-button v-if="isAuth('sys:user:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-delete">批量删除</el-button>
+        <el-button v-if="isAuth('server:save')" type="primary" @click="addOrUpdateHandle()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
+        <el-button v-if="isAuth('server:distribution')" type="danger" @click="batchUpdateHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-delete">批量分配</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -15,7 +15,7 @@
       border
       v-loading="dataListLoading"
       @selection-change="selectionChangeHandle"
-      style="width: 100%; " :row-style="{'height':'10px'}">
+      style="width: 100%; ">
       <el-table-column
         type="selection"
         header-align="center"
@@ -23,35 +23,67 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="userId"
+        prop="id"
         header-align="center"
         align="center"
-        width="80"
+        v-if="false"
+        width="60"
         label="ID">
       </el-table-column>
       <el-table-column
-        prop="username"
+        prop="carrierpsn"
         header-align="center"
         align="center"
-        label="用户名">
+        width="80"
+        label="PSN">
       </el-table-column>
       <el-table-column
-        prop="realName"
+        prop="carrierusn"
         header-align="center"
         align="center"
-        label="姓名">
+        width="120"
+        label="USN">
       </el-table-column>
       <el-table-column
-        prop="email"
+        prop="companyName"
         header-align="center"
         align="center"
-        label="邮箱">
+        width="120"
+        label="机构名称">
       </el-table-column>
       <el-table-column
-        prop="mobile"
+        prop="roomName"
         header-align="center"
         align="center"
-        label="手机号">
+        width="120"
+        label="机房名">
+      </el-table-column>
+      <el-table-column
+        prop="frameName"
+        header-align="center"
+        align="center"
+        width="120"
+        label="机柜名(编号)">
+      </el-table-column>
+      <el-table-column
+        prop="serverCode"
+        header-align="center"
+        align="center"
+        width="120"
+        label="服务器名(编号)">
+      </el-table-column>
+      <el-table-column
+        prop="comment"
+        header-align="center"
+        align="center"
+        width="200"
+        label="备注说明">
+      </el-table-column>
+      <el-table-column
+        prop="owners"
+        header-align="center"
+        align="center"
+        label="负责人">
       </el-table-column>
       <el-table-column
         prop="status"
@@ -64,17 +96,18 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="companyName"
-        header-align="center"
-        align="center"
-        label="所属机构">
-      </el-table-column>
-      <el-table-column
         prop="createTime"
         header-align="center"
         align="center"
         width="180"
         label="创建时间">
+      </el-table-column>
+      <el-table-column
+        prop="updateTime"
+        header-align="center"
+        align="center"
+        width="180"
+        label="更新时间">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -84,10 +117,10 @@
         label="操作">
         <template slot-scope="scope" >
           <el-tooltip content="修改" :open-delay="1500" :hide-after="5000">
-            <el-button v-if="isAuth('sys:user:update')" type="primary" icon="el-icon-edit"  size="mini" @click="addOrUpdateHandle(scope.row.userId)" circle></el-button>
+            <el-button v-if="isAuth('server:update')" type="primary" icon="el-icon-edit"  size="mini" @click="addOrUpdateHandle(scope.row.id)" circle></el-button>
           </el-tooltip>
           <el-tooltip content="删除" :open-delay="1500" :hide-after="5000">
-            <el-button v-if="isAuth('sys:user:delete')" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandle(scope.row.userId)" circle></el-button>
+            <el-button v-if="isAuth('server:delete')" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandle(scope.row.id)" circle></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -103,16 +136,19 @@
     </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <!-- 批量分配 -->
+    <batch-update v-if="batchUpdate" ref="batchUpdate" @refreshDataList="getDataList"></batch-update>
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './user-add-or-update'
+  import AddOrUpdate from './server-add-or-update'
+  import batchUpdate from './server-batch-update'
   export default {
     data () {
       return {
         dataForm: {
-          userName: ''
+          name: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -120,11 +156,14 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
+        batchUpdate: false,
         addOrUpdateVisible: false
+
       }
     },
     components: {
-      AddOrUpdate
+      AddOrUpdate,
+      batchUpdate
     },
     activated () {
       this.getDataList()
@@ -134,12 +173,12 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/user/list'),
+          url: this.$http.adornUrl('/server/list'),
           method: 'get',
           params: this.$http.adornParams({
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
-            'username': this.dataForm.userName
+            'owners': this.dataForm.owners
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -176,18 +215,15 @@
       },
       // 删除
       deleteHandle (id) {
-        var userIds = id ? [id] : this.dataListSelections.map(item => {
-          return item.userId
-        })
-        this.$confirm(`确定对[id=${userIds.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+        this.$confirm(`确定进行['删除']操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/user/delete'),
+            url: this.$http.adornUrl('/server/delete'),
             method: 'post',
-            data: this.$http.adornData(userIds, false)
+            data: this.$http.adornData(id, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
@@ -202,6 +238,16 @@
               this.$message.error(data.msg)
             }
           })
+        })
+      },
+      // 批量分配
+      batchUpdateHandle () {
+        this.batchUpdate = true
+        this.$nextTick(() => {
+          var ids = this.dataListSelections.map(item => {
+            return item.id
+          })
+          this.$refs.batchUpdate.init(ids)
         })
       }
     }

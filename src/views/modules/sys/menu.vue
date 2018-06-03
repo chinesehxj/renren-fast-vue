@@ -8,6 +8,7 @@
     <el-table
       :data="dataList"
       border
+      v-loading="dataListLoading"
       style="width: 100%;">
       <el-table-column
         prop="menuId"

@@ -11,6 +11,7 @@ import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/a
 import { isAuth } from '@/utils'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import '@/assets/iconfont/iconfont.css'
 
 Vue.use(VueCookie)
 Vue.use(iView)

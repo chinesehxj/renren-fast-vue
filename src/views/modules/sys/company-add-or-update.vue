@@ -2,7 +2,7 @@
   <el-dialog
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
-    :visible.sync="visible" width="600px">
+    :visible.sync="visible" width="600px" @close="cancelClick()">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" size="small" label-width="100px">
       <el-form-item label="机构名称" prop="name">
         <el-input v-model="dataForm.name" placeholder="机构名称"></el-input>
@@ -27,7 +27,7 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false" size="small" icon="el-icon-close">取消</el-button>
+      <el-button @click="cancelClick()" size="small" icon="el-icon-close">取消</el-button>
       <el-button type="primary" @click="dataFormSubmit()" size="small" icon="el-icon-check">确定</el-button>
     </span>
   </el-dialog>
@@ -124,6 +124,7 @@
                   type: 'success',
                   duration: 1500,
                   onClose: () => {
+                    this.$refs['dataForm'].resetFields()
                     this.visible = false
                     this.$emit('refreshDataList')
                   }
@@ -134,6 +135,10 @@
             })
           }
         })
+      },
+      cancelClick () {
+        this.$refs['dataForm'].resetFields()
+        this.visible = false
       }
     }
   }

@@ -12,6 +12,7 @@ import { isAuth } from '@/utils'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import '@/assets/iconfont/iconfont.css'
+import 'babel-polyfill'
 
 Vue.use(VueCookie)
 Vue.use(iView)

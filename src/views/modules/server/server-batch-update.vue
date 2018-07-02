@@ -111,17 +111,13 @@
         this.dataForm.ids = ids
         // 所属机构下拉框内容
         this.$http({
-          url: this.$http.adornUrl('/sys/company/list'),
+          url: this.$http.adornUrl('/sys/company/items'),
           method: 'get',
-          params: this.$http.adornParams({
-            'pageIndex': '',
-            'pageSize': '',
-            'name': ''
-          })
+          params: this.$http.adornParams()
         }).then(({data}) => {
           this.options = data && data.code === 0 ? data.page : []
           console.log(this.options[0])
-          this.dataForm.companyId = this.options[0].id
+          this.dataForm.companyId = this.options[0] ? this.options[0].id : null
         }).then(() => {
           // 机房名下拉框列表
           this.$http({

@@ -118,7 +118,7 @@
           label="操作">
           <template slot-scope="scope" >
             <el-tooltip content="查看详情" :open-delay="1500" :hide-after="5000">
-              <el-button v-if="isAuth('server:update')" type="primary" icon="el-icon-document"  size="mini" @click="addOrUpdateHandle(scope.row.carrierpsn)" circle></el-button>
+              <el-button v-if="isAuth('server:info')" type="primary" icon="el-icon-document"  size="mini" @click="addOrUpdateHandle(scope.row.carrierpsn)" circle></el-button>
             </el-tooltip>
           </template>
         </el-table-column>

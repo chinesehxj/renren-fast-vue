@@ -559,7 +559,7 @@
                                                 <p class="p_content_item" style="font-size:14px;">{{item.deviceName}}</p>
                                             </div>
                                             <div>
-                                                <p class="p_content_item" style="font-size:12px;"><span>{{item.sensorName}}</span><span style="float:right;">{{item.sensorValue}} {{item.sensorUnit}}</span></p>
+                                                <p class="p_content_item" style="font-size:12px;"><span>{{item.sensorName}} {{item.sensorClass}}</span><span style="float:right;">{{item.sensorValue}} {{item.sensorUnit}}</span></p>
                                                 <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
                                                     <el-progress :stroke-width='8' :percentage="parseFloat(item.sensorValue)" :show-text='false' color="#67C23A"></el-progress>
                                                 </p>

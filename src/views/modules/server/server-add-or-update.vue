@@ -20,6 +20,9 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <div v-show="!dataForm.id ? false : true">
+
+      
       <el-form-item label="机房名" prop="roomId">
         <el-select v-model="dataForm.roomId" filterable placeholder="请选择(支持搜索)" @change="getFrameList()">
           <el-option
@@ -43,6 +46,7 @@
       <el-form-item label="服务器名(编号)" prop="serverCode">
         <el-input v-model="dataForm.serverCode" placeholder="服务器名(编号)"></el-input>
       </el-form-item>
+      </div>
       <el-form-item label="备注说明" prop="comment">
         <el-input v-model="dataForm.comment" placeholder="备注说明"></el-input>
       </el-form-item>
@@ -129,13 +133,9 @@
         this.dataForm.id = id || 0
         // 所属机构下拉框内容
         this.$http({
-          url: this.$http.adornUrl('/sys/company/list'),
+          url: this.$http.adornUrl('/sys/company/items'),
           method: 'get',
-          params: this.$http.adornParams({
-            'pageIndex': '',
-            'pageSize': '',
-            'name': ''
-          })
+          params: this.$http.adornParams()
         }).then(({data}) => {
           this.options = data && data.code === 0 ? data.page : []
           this.dataForm.companyId = this.options[0].id

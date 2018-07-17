@@ -88,7 +88,7 @@
           this.$http({
             url: this.$http.adornUrl(`/sys/company/info/${this.dataForm.id}`),
             method: 'get',
-            params: this.$http.adornParams()
+            params: this.$http.adornParams('', false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.dataForm.name = data.info.name

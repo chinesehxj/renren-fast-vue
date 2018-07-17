@@ -51,7 +51,7 @@ http.adornUrl = (actionName) => {
  * @param {*} params 参数对象
  * @param {*} openDefultParams 是否开启默认参数?
  */
-http.adornParams = (params = {}, openDefultParams = false) => {
+http.adornParams = (params = {}, openDefultParams = true) => {
   var defaults = {
     't': new Date().getTime()
   }

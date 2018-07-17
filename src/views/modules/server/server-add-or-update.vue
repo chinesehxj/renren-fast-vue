@@ -135,7 +135,7 @@
         this.$http({
           url: this.$http.adornUrl('/sys/company/items'),
           method: 'get',
-          params: this.$http.adornParams()
+          params: this.$http.adornParams('', false)
         }).then(({data}) => {
           this.options = data && data.code === 0 ? data.page : []
           this.dataForm.companyId = this.options[0].id
@@ -147,7 +147,7 @@
             params: this.$http.adornParams({
               'param_type': 'server_room',
               'parent_id': 0
-            })
+            }, false)
           }).then(({data}) => {
             this.roomOptions = data && data.code === 0 ? data.page : []
           })
@@ -164,7 +164,7 @@
             this.$http({
               url: this.$http.adornUrl(`/server/info/${this.dataForm.id}`),
               method: 'get',
-              params: this.$http.adornParams()
+              params: this.$http.adornParams('', false)
             }).then(({data}) => {
               if (data && data.code === 0) {
                 console.log(data)
@@ -244,7 +244,7 @@
             params: this.$http.adornParams({
               'param_type': 'server_frame',
               'parent_id': this.dataForm.roomId
-            })
+            }, false)
           }).then(({data}) => {
             this.frameOptions = data && data.code === 0 ? data.page : []
           })
@@ -261,7 +261,7 @@
             method: 'get',
             params: this.$http.adornParams({
               'company_id': this.dataForm.companyId
-            })
+            }, false)
           }).then(({data}) => {
             console.log(data)
             this.ownersOptions = data && data.code === 0 ? data.page : []

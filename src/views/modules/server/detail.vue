@@ -662,7 +662,7 @@ export default {
         method: 'get',
         params: this.$http.adornParams({
           'carrierpsn': this.paramsPsn
-        })
+        }, false)
       }).then(({data}) => {
         if (data && data.code === 0) {
           this.mainBoardList = data.info.Mainboard
@@ -681,7 +681,7 @@ export default {
         method: 'get',
         params: this.$http.adornParams({
           'carrierpsn': this.paramsPsn
-        })
+        }, false)
       }).then(({data}) => {
         if (data && data.code === 0) {
           console.log(data)
@@ -698,7 +698,7 @@ export default {
         params: this.$http.adornParams({
           'param_type': 'caution_type',
           'parent_id': 0
-        })
+        }, false)
       }).then(({data}) => {
         this.options = data && data.code === 0 ? data.page : []
       })
@@ -734,7 +734,7 @@ export default {
             method: 'get',
             params: this.$http.adornParams({
               'recordId': val.historyRecordId
-            })
+            }, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.cautionMainBoard = data.info.Mainboard
@@ -749,7 +749,7 @@ export default {
             method: 'get',
             params: this.$http.adornParams({
               'recordId': val.historyRecordId
-            })
+            }, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.cautionCpu = data.info

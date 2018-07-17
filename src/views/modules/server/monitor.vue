@@ -174,7 +174,7 @@
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
             'owners': this.dataForm.owners
-          })
+          }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.dataList = data.page.list

@@ -150,7 +150,7 @@
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
             'name': this.dataForm.name
-          })
+          }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.dataList = data.page

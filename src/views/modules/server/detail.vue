@@ -413,7 +413,7 @@
                             <div v-show="detailShowFlag">
                             <el-tabs tab-position="left" type="border-card" style="height: auto;">
                                 <el-tab-pane >
-                                    <span slot="label" >
+                                    <span slot="label">
                                         <el-tooltip content="主板" :open-delay="500" :hide-after="5000">
                                             <i class="iconfont el-icon-dms-zhubanmainboard" style="font-size:30px;margin-top:4px"></i>
                                         </el-tooltip>

@@ -129,7 +129,7 @@
       right: 0;
       bottom: 0;
       left: 0;
-      padding: 100px;
+      /*padding: 100px;*/
       margin: 0;
       overflow-x: hidden;
       overflow-y: hidden;

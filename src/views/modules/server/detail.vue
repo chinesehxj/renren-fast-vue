@@ -297,7 +297,7 @@
                         </el-form-item>
                     </el-form>
                     <el-row :gutter='8'>
-                        <el-col :span="16">
+                        <el-col :span="14">
                             <el-table
                                 :data="cautionDataList"
                                 border
@@ -317,14 +317,14 @@
                                     header-align="center"
                                     align="center"
                                     v-if="false"
-                                    width="60"
+                                    width="100"
                                     label="recordId">
                                 </el-table-column>
                                 <el-table-column
                                     prop="recordTime"
                                     header-align="center"
                                     align="center"
-                                    width="170"
+                                    width="270"
                                     label="告警时间">
                                 </el-table-column>
                                 <el-table-column
@@ -347,7 +347,7 @@
                                     prop="cautionText"
                                     header-align="center"
                                     align="center"
-                                    width="200"
+                                    width="400"
                                     label="告警内容">
                                 </el-table-column>
                                 <el-table-column
@@ -358,7 +358,7 @@
                                     v-if="false"
                                     label="详细记录id">
                                 </el-table-column>
-                                <el-table-column
+                               <!-- <el-table-column
                                     prop="roomName"
                                     header-align="center"
                                     align="center"
@@ -386,7 +386,7 @@
                                     width="200"
                                     label="备注说明">
                                 </el-table-column>
-                                <!-- <el-table-column
+                                <el-table-column
                                     fixed="right"
                                     header-align="center"
                                     align="center"
@@ -409,8 +409,31 @@
                                 layout="total, sizes, prev, pager, next, jumper">
                                 </el-pagination>
                         </el-col>
-                        <el-col :span="8">
-                            <div v-show="detailShowFlag">
+                        <el-col :span="10">
+                            <el-card>
+                                <div style="margin-top:-10px; margin-bottom:-10px;">
+                                <el-row>
+                                    <el-col :span="12">
+                                        <div>
+                                            <p class="p_content_item" style="font-size:14px;color: #919191;"><span>机房名:</span><span style="margin-left:5px;color: #919191;">{{roomName}}</span></p>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <div>
+                                            <p class="p_content_item" style="font-size:14px;color: #919191;"><span>机柜名:</span><span style="margin-left:5px;color: #919191;">{{frameName}}</span></p>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div>
+                                            <p class="p_content_item" style="font-size:14px;color: #919191;"><span>备注:</span><span style="margin-left:5px;color: #919191;">{{comment}}</span></p>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                </div>
+                            </el-card>
+                            <div v-show="detailShowFlag" style="margin-top: 10px;">
                             <el-tabs tab-position="left" type="border-card" style="height: auto;">
                                 <el-tab-pane >
                                     <span slot="label">
@@ -613,6 +636,10 @@ export default {
       dataListSelections: [],
       addOrUpdateVisible: false,
       paramsPsn: '',
+      roomName: '',
+      frameName: '',
+      serverCode: '',
+      comment: '',
       displayAdapterList: '',
       detailShowFlag: false,
       cautionMainBoard: '',
@@ -643,12 +670,16 @@ export default {
         return true
       }
     },
-    initView (psn) {
+    initView (psn, roomName, frameName, serverCode, comment) {
       // 初始化数据
       xAxisData.splice(0, xAxisData.length)
       legendData.splice(0, legendData.length)
       seriesData.splice(0, seriesData.length)
       this.paramsPsn = psn
+      this.roomName = roomName
+      this.frameName = frameName
+      this.serverCode = serverCode
+      this.comment = comment
       this.getDataList()
       var vmObject = this
       IntervalObject = setInterval(

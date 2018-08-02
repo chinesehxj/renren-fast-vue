@@ -118,7 +118,7 @@
           label="操作">
           <template slot-scope="scope" >
             <el-tooltip content="查看详情" :open-delay="1500" :hide-after="5000">
-              <el-button v-if="isAuth('server:info')" type="primary" icon="el-icon-document"  size="mini" @click="addOrUpdateHandle(scope.row.carrierpsn)" circle></el-button>
+              <el-button v-if="isAuth('server:info')" type="primary" icon="el-icon-document"  size="mini" @click="addOrUpdateHandle(scope.row.carrierpsn,scope.row.roomName,scope.row.frameName,scope.row.serverCode,scope.row.comment)" circle></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -207,11 +207,11 @@
         this.dataListSelections = val
       },
       // 查看详情页面
-      addOrUpdateHandle (psn) {
+      addOrUpdateHandle (psn, roomName, frameName, serverCode, comment) {
         this.parentShow = false
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
-          this.$refs.addOrUpdate.initView(psn)
+          this.$refs.addOrUpdate.initView(psn, roomName, frameName, serverCode, comment)
         })
       },
       // 删除

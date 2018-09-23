@@ -50,86 +50,173 @@
         </div>
       </el-col>
     </el-row>
-    <el-row style="background:#fff;margin-bottom:32px;" :gutter="10" v-loading="dataListLoading">
-      <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" v-for="(serItem,index) in servers" :key="index">
-        <el-card shadow='hover' :body-style="{padding:'10px'}">
-          <div class="div_item_title" @click="removeServer(serItem.serverInfo.carrierpsn)">
-            <el-button v-if="serItem.serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
-            <el-button v-if="serItem.serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
-            <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{serItem.serverInfo.computerName}}</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round>移除</el-button>
-          </div>
-          <line-chart :chart-data="serItem.cpuChartData"></line-chart>
-          <div>
-            <el-row >
-              <el-col :xs="8" :sm="8" :lg="8">
-                <div class="card-panel-location">
-                  <i class="iconfont el-icon-dms-icon-test" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">温度:</span>
-                </div>
-                <div v-if="serItem.serverInfo.Temperature == null || serItem.serverInfo.Temperature == ''">
-                    <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
-                </div>
-                <div v-else>
-                    <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in serItem.serverInfo.Temperature">
-                        <p style="font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>{{item.deviceName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} ℃</span></p>
+    <div v-loading="dataListLoading">
+      <el-row style="background:#fff;margin-bottom:10px;" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
+        <div v-if="index % 2 == 0">
+          <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="index">
+            <el-card shadow='hover' :body-style="{padding:'10px'}">
+              <div class="div_item_title" >
+                <el-button v-if="servers[index].serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
+                <el-button v-if="servers[index].serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
+                <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{servers[index].serverInfo.computerName}}</span>
+                <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="removeServer(servers[index].serverInfo.carrierpsn)">移除</el-button>
+              </div>
+              <line-chart :chart-data="servers[index].cpuChartData"></line-chart>
+              <div>
+                <el-row >
+                  <el-col :xs="8" :sm="8" :lg="8">
+                    <div class="card-panel-location">
+                      <i class="iconfont el-icon-dms-icon-test" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">温度:</span>
                     </div>
-                </div>
-              </el-col>
-              <el-col :xs="6" :sm="6" :lg="6">
-                <div class="card-panel-location">
-                  <i class="iconfont el-icon-dms-neicun" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px; line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">内存占用率:</span>
-                </div>
-                <div v-if="serItem.serverInfo.Mainboard == null || serItem.serverInfo.Mainboard == ''">
-                    <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
-                </div>
-                <div v-else>
-                    <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in serItem.serverInfo.Mainboard">
-                        <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
-                            <el-progress :stroke-width="6" type="circle" :width="50" :percentage="parseFloat(item.sensorValue)" color="#8e71c7"></el-progress>
-                        </p>
+                    <div v-if="servers[index].serverInfo.Temperature == null || servers[index].serverInfo.Temperature == ''">
+                        <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
                     </div>
-                </div> 
-              </el-col>
-              <el-col :xs="10" :sm="10" :lg="10">
-                <div class="card-panel-location">
-                  <i class="iconfont el-icon-dms-yingpan" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">硬盘占用率:</span>
-                </div>
-                <div v-if="serItem.serverInfo.Drive == null || serItem.serverInfo.Drive == ''">
-                    <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
-                </div>
-                <div v-else>
-                    <div v-for="item in serItem.serverInfo.Drive">
-                        <div>
-                          <span style="font-size:10px;color: rgba(0, 0, 0, 0.45);">{{item.sensorName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} %</span>
+                    <div v-else>
+                        <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in servers[index].serverInfo.Temperature">
+                            <p style="font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>{{item.deviceName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} ℃</span></p>
                         </div>
-                        <div>
-                          <el-progress :stroke-width='8' :percentage="parseFloat(item.sensorValue)" :show-text="false" color="#67C23A"></el-progress>
+                    </div>
+                  </el-col>
+                  <el-col :xs="6" :sm="6" :lg="6">
+                    <div class="card-panel-location">
+                      <i class="iconfont el-icon-dms-neicun" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px; line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">内存占用率:</span>
+                    </div>
+                    <div v-if="servers[index].serverInfo.Mainboard == null || servers[index].serverInfo.Mainboard == ''">
+                        <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
+                    </div>
+                    <div v-else>
+                        <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in servers[index].serverInfo.Mainboard">
+                            <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
+                                <el-progress :stroke-width="6" type="circle" :width="50" :percentage="parseFloat(item.sensorValue)" color="#8e71c7"></el-progress>
+                            </p>
                         </div>
                     </div> 
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;">
-        <el-card shadow='hover' :body-style="{padding:'10px'}">
-          <div class="div_item_title" >
-            <el-button size="mini" type="primary"  style="padding:5px;"  circle><i class="el-icon-plus" style="font-size:14px;font-weight:bold;"></i></el-button>
-            <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">添加关注服务器</span>
-          </div>
-          <div style="height:260px;">
-            <el-row class="panel-add">
-              <el-col :xs="24" :sm="24" :lg="24">
-                <div class="card-add-panel" @click="addServer">
-                  <span><i class="el-icon-plus card-add-panel-icon-wrapper icon-add"></i></span>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+                  </el-col>
+                  <el-col :xs="10" :sm="10" :lg="10">
+                    <div class="card-panel-location">
+                      <i class="iconfont el-icon-dms-yingpan" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">硬盘占用率:</span>
+                    </div>
+                    <div v-if="servers[index].serverInfo.Drive == null || servers[index].serverInfo.Drive == ''">
+                        <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
+                    </div>
+                    <div v-else>
+                        <div v-for="item in servers[index].serverInfo.Drive">
+                            <div>
+                              <span style="font-size:10px;color: rgba(0, 0, 0, 0.45);">{{item.sensorName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} %</span>
+                            </div>
+                            <div>
+                              <el-progress :stroke-width='8' :percentage="parseFloat(item.sensorValue)" :show-text="false" color="#67C23A"></el-progress>
+                            </div>
+                        </div> 
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-card>
+          </el-col>
+
+          <el-col v-if="index < servers.length - 1" :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="(index+1)" >
+            <el-card shadow='hover' :body-style="{padding:'10px'}">
+              <div class="div_item_title">
+                <el-button v-if="servers[index + 1].serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
+                <el-button v-if="servers[index + 1].serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
+                <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{servers[index + 1].serverInfo.computerName}}</span>
+                <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="removeServer(servers[index + 1].serverInfo.carrierpsn)">移除</el-button>
+              </div>
+              <line-chart :chart-data="servers[index + 1].cpuChartData"></line-chart>
+              <div>
+                <el-row >
+                  <el-col :xs="8" :sm="8" :lg="8">
+                    <div class="card-panel-location">
+                      <i class="iconfont el-icon-dms-icon-test" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">温度:</span>
+                    </div>
+                    <div v-if="servers[index + 1].serverInfo.Temperature == null || servers[index + 1].serverInfo.Temperature == ''">
+                        <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
+                    </div>
+                    <div v-else>
+                        <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in servers[index + 1].serverInfo.Temperature">
+                            <p style="font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>{{item.deviceName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} ℃</span></p>
+                        </div>
+                    </div>
+                  </el-col>
+                  <el-col :xs="6" :sm="6" :lg="6">
+                    <div class="card-panel-location">
+                      <i class="iconfont el-icon-dms-neicun" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px; line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">内存占用率:</span>
+                    </div>
+                    <div v-if="servers[index + 1].serverInfo.Mainboard == null || servers[index + 1].serverInfo.Mainboard == ''">
+                        <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
+                    </div>
+                    <div v-else>
+                        <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in servers[index + 1].serverInfo.Mainboard">
+                            <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
+                                <el-progress :stroke-width="6" type="circle" :width="50" :percentage="parseFloat(item.sensorValue)" color="#8e71c7"></el-progress>
+                            </p>
+                        </div>
+                    </div> 
+                  </el-col>
+                  <el-col :xs="10" :sm="10" :lg="10">
+                    <div class="card-panel-location">
+                      <i class="iconfont el-icon-dms-yingpan" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">硬盘占用率:</span>
+                    </div>
+                    <div v-if="servers[index + 1].serverInfo.Drive == null || servers[index + 1].serverInfo.Drive == ''">
+                        <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
+                    </div>
+                    <div v-else>
+                        <div v-for="item in servers[index + 1].serverInfo.Drive">
+                            <div>
+                              <span style="font-size:10px;color: rgba(0, 0, 0, 0.45);">{{item.sensorName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} %</span>
+                            </div>
+                            <div>
+                              <el-progress :stroke-width='8' :percentage="parseFloat(item.sensorValue)" :show-text="false" color="#67C23A"></el-progress>
+                            </div>
+                        </div> 
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-card>
+          </el-col>
+        </div>
+
+        <el-col v-if="index == servers.length - 1" :xs="24" :sm="24" :lg="12" style="margin-top:10px;">
+          <el-card shadow='hover' :body-style="{padding:'10px'}">
+            <div class="div_item_title" >
+              <el-button size="mini" type="primary"  style="padding:5px;"  circle><i class="el-icon-plus" style="font-size:14px;font-weight:bold;"></i></el-button>
+              <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">添加关注服务器</span>
+            </div>
+            <div style="height:260px;">
+              <el-row class="panel-add">
+                <el-col :xs="24" :sm="24" :lg="24">
+                  <div class="card-add-panel" @click="addServer">
+                    <span><i class="el-icon-plus card-add-panel-icon-wrapper icon-add"></i></span>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    
+      <el-row v-if="servers.length == 0" style="background:#fff;margin-bottom:10px;" :gutter="10">
+        <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;">
+          <el-card shadow='hover' :body-style="{padding:'10px'}">
+            <div class="div_item_title" >
+              <el-button size="mini" type="primary"  style="padding:5px;"  circle><i class="el-icon-plus" style="font-size:14px;font-weight:bold;"></i></el-button>
+              <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">添加关注服务器</span>
+            </div>
+            <div style="height:260px;">
+              <el-row class="panel-add">
+                <el-col :xs="24" :sm="24" :lg="24">
+                  <div class="card-add-panel" @click="addServer">
+                    <span><i class="el-icon-plus card-add-panel-icon-wrapper icon-add"></i></span>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
     <server-list v-if="serverListVisible" ref="showServerList" @refreshDataList="getDataList(false)"></server-list>
   </div>
 </template>

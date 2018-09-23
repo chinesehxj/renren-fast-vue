@@ -63,7 +63,7 @@ export default {
           x2: 1000,
           left: 20,
           right: 20,
-          bottom: 30,
+          bottom: 40,
           top: 30,
           containLabel: true
         },
@@ -79,20 +79,23 @@ export default {
           textStyle: {
             color: 'red'
           },
-          axisLabel: {
-            interval: 2,
-            rotate: 55
-          },
           boundaryGap: false,
           axisTick: {
             show: false
-          }
+          },
+          type: 'category'
         },
         yAxis: {
           axisTick: {
             show: false
           }
         },
+        dataZoom: [{
+          type: 'slider',
+          start: 90,
+          end: 100,
+          bottom: 5
+        }],
         series: [{
           name: countName,
           itemStyle: {

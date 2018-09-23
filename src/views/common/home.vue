@@ -36,13 +36,13 @@
             </div>
           </el-col>
           <el-col :xs="12" :sm="12" :lg="12">
-            <div class="card-panel-location">
+            <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
               <i class="iconfont el-icon-dms-lixian" style="color:#6699FF;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">下线告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.offlineCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
-            <div class="card-panel-location">
+            <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
               <i class="iconfont el-icon-dms-cpu" style="color:green;font-size:20px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">CPU温度过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
-            <div class="card-panel-location">
+            <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
               <i class="iconfont el-icon-dms-xuniyingpan" style="color:orange;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">磁盘可用空间过低告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
           </el-col>
@@ -50,27 +50,27 @@
         </div>
       </el-col>
     </el-row>
-    <el-row style="background:#fff;margin-bottom:32px;" :gutter="10">
-      <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;">
+    <el-row style="background:#fff;margin-bottom:32px;" :gutter="10" v-loading="dataListLoading">
+      <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" v-for="(serItem,index) in servers" :key="index">
         <el-card shadow='hover' :body-style="{padding:'10px'}">
-          <div class="div_item_title" >
-            <el-button v-if="serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
-            <el-button v-if="serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
-            <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{serverInfo.computerName}}</span>
+          <div class="div_item_title" @click="removeServer(serItem.serverInfo.carrierpsn)">
+            <el-button v-if="serItem.serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
+            <el-button v-if="serItem.serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
+            <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{serItem.serverInfo.computerName}}</span>
             <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round>移除</el-button>
           </div>
-          <line-chart :chart-data="cpuChartData"></line-chart>
+          <line-chart :chart-data="serItem.cpuChartData"></line-chart>
           <div>
             <el-row >
               <el-col :xs="8" :sm="8" :lg="8">
                 <div class="card-panel-location">
                   <i class="iconfont el-icon-dms-icon-test" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">温度:</span>
                 </div>
-                <div v-if="serverInfo.Temperature == null || serverInfo.Temperature == ''">
+                <div v-if="serItem.serverInfo.Temperature == null || serItem.serverInfo.Temperature == ''">
                     <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
                 </div>
                 <div v-else>
-                    <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in serverInfo.Temperature">
+                    <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in serItem.serverInfo.Temperature">
                         <p style="font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>{{item.deviceName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} ℃</span></p>
                     </div>
                 </div>
@@ -79,11 +79,11 @@
                 <div class="card-panel-location">
                   <i class="iconfont el-icon-dms-neicun" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px; line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">内存占用率:</span>
                 </div>
-                <div v-if="serverInfo.Mainboard == null || serverInfo.Mainboard == ''">
+                <div v-if="serItem.serverInfo.Mainboard == null || serItem.serverInfo.Mainboard == ''">
                     <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
                 </div>
                 <div v-else>
-                    <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in serverInfo.Mainboard">
+                    <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in serItem.serverInfo.Mainboard">
                         <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
                             <el-progress :stroke-width="6" type="circle" :width="50" :percentage="parseFloat(item.sensorValue)" color="#8e71c7"></el-progress>
                         </p>
@@ -94,11 +94,11 @@
                 <div class="card-panel-location">
                   <i class="iconfont el-icon-dms-yingpan" style="color:#36a3f7;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">硬盘占用率:</span>
                 </div>
-                <div v-if="serverInfo.Drive == null || serverInfo.Drive == ''">
+                <div v-if="serItem.serverInfo.Drive == null || serItem.serverInfo.Drive == ''">
                     <p  style="height:20px;line-height:20px;font-size:10px;color: rgba(0, 0, 0, 0.45);"><span>暂无数据</span></p>
                 </div>
                 <div v-else>
-                    <div v-for="item in serverInfo.Drive">
+                    <div v-for="item in serItem.serverInfo.Drive">
                         <div>
                           <span style="font-size:10px;color: rgba(0, 0, 0, 0.45);">{{item.sensorName}}</span><span style="float:right;font-size:12px;color: #666;">{{item.sensorValue}} %</span>
                         </div>
@@ -115,43 +115,13 @@
       <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;">
         <el-card shadow='hover' :body-style="{padding:'10px'}">
           <div class="div_item_title" >
-            <el-button v-if="serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
-            <el-button v-if="serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
-            <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{serverInfo.computerName}}</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round>移除</el-button>
-          </div>
-          <line-chart :chart-data="cpuChartData"></line-chart>
-          <div>
-            <el-row>
-              <el-col :xs="8" :sm="8" :lg="8">
-                <div class="card-panel-location">
-                  <i class="iconfont el-icon-dms-icon-test" style="color:#36a3f7;font-size:16px;margin-left:15px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">温度:</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span><span style="margin-left:2px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">℃</span>
-                </div>
-              </el-col>
-              <el-col :xs="8" :sm="8" :lg="8">
-                <div class="card-panel-location">
-                  <i class="iconfont el-icon-dms-neicun" style="color:#36a3f7;font-size:16px;margin-left:15px;"></i><span style="margin-left:5px; line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">内存占用率:</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span>
-                </div>
-              </el-col>
-              <el-col :xs="8" :sm="8" :lg="8">
-                <div class="card-panel-location">
-                  <i class="iconfont el-icon-dms-yingpan" style="color:#36a3f7;font-size:16px;margin-left:15px;"></i><span style="margin-left:5px;line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">硬盘占用率:</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;">
-        <el-card shadow='hover' :body-style="{padding:'10px'}">
-          <div class="div_item_title" >
             <el-button size="mini" type="primary"  style="padding:5px;"  circle><i class="el-icon-plus" style="font-size:14px;font-weight:bold;"></i></el-button>
             <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">添加关注服务器</span>
           </div>
-          <div style="height:227px;">
+          <div style="height:260px;">
             <el-row class="panel-add">
               <el-col :xs="24" :sm="24" :lg="24">
-                <div class="card-add-panel">
+                <div class="card-add-panel" @click="addServer">
                   <span><i class="el-icon-plus card-add-panel-icon-wrapper icon-add"></i></span>
                 </div>
               </el-col>
@@ -160,20 +130,19 @@
         </el-card>
       </el-col>
     </el-row>
+    <server-list v-if="serverListVisible" ref="showServerList" @refreshDataList="getDataList(false)"></server-list>
   </div>
 </template>
 
 <script>
   import CountTo from 'vue-count-to'
   import LineChart from '@/components/LineChart'
-  var xAxisData = []
-  var legendData = []
-  var seriesData = []
-
+  import serverList from '@/components/home-server-component'
   export default {
     components: {
       CountTo,
-      LineChart
+      LineChart,
+      serverList
     },
     data () {
       return {
@@ -186,32 +155,42 @@
           cpuCautionCount: 0
         },
         serverInfo: '',
+        dataListLoading: false,
+        carrierPSNList: '',
         cpuChartData: {
           xAxisName: [],
           countName: 'cpu使用率',
           tableData: []
-        }
+        },
+        servers: [],
+        serverListVisible: false
       }
     },
     mounted () {
-      this.getDataList()
+      var vmObject = this
+      vmObject.getDataList(false)
+      setInterval(
+        function () {
+          vmObject.getDataList(true)
+        }, 120000)
     },
     methods: {
       // 获取首页数据
-      getDataList () {
+      getDataList (intervalFlag) {
+        console.log(new Date())
         this.$http({
           url: this.$http.adornUrl('/home/getSummariseData'),
           method: 'get',
           params: this.$http.adornParams({}, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
-            console.log(data)
+            this.carrierPSNList = data.info
             // 获取汇总数据
             this.$http({
               url: this.$http.adornUrl('/home/sumData'),
               method: 'post',
               data: this.$http.adornData({
-                'carrierPSNList': data.info
+                'carrierPSNList': this.carrierPSNList
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
@@ -224,6 +203,9 @@
               } else {}
             })
             // 获取每个服务器数据
+            if (!intervalFlag) {
+              this.dataListLoading = true
+            }
             this.$http({
               url: this.$http.adornUrl('/home/getCpuUseRate'),
               method: 'post',
@@ -232,16 +214,56 @@
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
-                console.log(data)
-                this.serverInfo = data.info
-                this.charData(data.info.Processor)
+                this.servers = []
+                for (var i = 0; i < data.info.length; i++) {
+                  this.serverInfo = data.info[i]
+                  this.charData(data.info[i].Processor)
+                }
               } else {}
+              this.dataListLoading = false
             })
           }
         })
       },
+      removeServer (psnNo) {
+        this.$confirm(`确定要移除吗?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http({
+            url: this.$http.adornUrl('/home/delete'),
+            method: 'get',
+            params: this.$http.adornParams({
+              'carrierpsn': psnNo
+            }, false)
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '移除成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  // this.servers = []
+                  this.getDataList(false)
+                }
+              })
+            }
+          })
+        })
+      },
+      addServer () {
+        this.serverListVisible = true
+        var psnList = this.carrierPSNList
+        this.$nextTick(() => {
+          this.$refs.showServerList.getDataList(psnList)
+        })
+      },
       // 封装走势图数据
       charData (dataList) {
+        var xAxisData = []
+        var legendData = []
+        var seriesData = []
         for (var i = 0; i < dataList.length; i++) {
           var j = i * 2
           if (j < dataList.length) {
@@ -256,10 +278,15 @@
             seriesData[arrIndex].data.push(dataList[i].sensorValue)
           }
         }
-        console.log(xAxisData.length)
-        console.log(seriesData[0].data.length)
-        this.cpuChartData.xAxisName = xAxisData
-        this.cpuChartData.tableData = seriesData[0].data
+        // console.log(xAxisData.length)
+        // console.log(seriesData[0].data.length)
+        if (xAxisData.length !== 0) {
+          // this.cpuChartData.xAxisName = xAxisData
+          // this.cpuChartData.tableData = seriesData[0].data
+          this.servers.push({'serverInfo': this.serverInfo, 'cpuChartData': {'xAxisName': xAxisData, 'countName': 'cpu使用率', 'tableData': seriesData[0].data}})
+        } else {
+          this.servers.push({'serverInfo': this.serverInfo, 'cpuChartData': {'xAxisName': '', 'countName': 'cpu使用率', 'tableData': ''}})
+        }
       }
     }
   }
@@ -361,20 +388,20 @@
           font-size: 20px;
         }
       }
-      .card-panel-location {
-        margin: 8px;
-        margin-left: 0px;
-        .card-panel-text {
-          line-height: 18px;
-          color: rgba(0, 0, 0, 0.45);
-          font-size: 14px;
-          margin-bottom: 12px;
-        }
-        .card-panel-num {
-          font-size: 20px;
-        }
-      }
-      
+    }
+  }
+  .card-panel-location {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    .card-panel-text {
+      line-height: 18px;
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .card-panel-num {
+      font-size: 20px;
     }
   }
   .panel-add {
@@ -385,7 +412,7 @@
       background: #fff;
       height: 90px;
       width: 90px;
-      margin: 60px auto;
+      margin: 70px auto;
       &:hover {
         .card-add-panel-icon-wrapper {
           color: #fff;

@@ -100,9 +100,9 @@ export default {
           name: countName,
           itemStyle: {
             normal: {
-              color: 'red',
+              color: '#66FFFF',
               lineStyle: {
-                color: 'red',
+                color: '#66FFFF',
                 width: 2
               }
             }

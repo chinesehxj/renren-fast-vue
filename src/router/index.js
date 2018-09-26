@@ -17,6 +17,7 @@ const _import = require('./import-' + process.env.NODE_ENV)
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
   { path: '/404', component: _import('common/404'), name: '404', meta: { title: '404未找到' } },
+  { path: '/board', component: _import('common/board'), name: 'board', meta: { title: '大屏监控' } },
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } }
 ]
 

@@ -107,6 +107,10 @@ export default {
               }
             }
           },
+          areaStyle: {
+            color: '#99FFFF',
+            opacity: 0.5
+          },
           smooth: true,
           type: 'line',
           data: tableData,

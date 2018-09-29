@@ -1,106 +1,179 @@
 <template>
   <div class="dashboard-editor-container">
-    <el-row class="panel-group" :gutter="40">
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class='card-panel' @click="requestFullScreen ()">
-          <div class="card-panel-icon-wrapper icon-people">
-            <i class="iconfont el-icon-dms-zaixian" style="font-size:65px;"></i>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">当前在线数</div>
-            <count-to class="card-panel-num" :startVal="0" :endVal="parseInt(fourCount.onlineCount)" :duration="2000"></count-to>
-          </div>
+    <el-row style="margin-top:20px;">
+      <el-col :xs="7" :sm="7" :lg="7" >
+        <div style="margin-left:30px;margin-top:20px;">
+          <span style="font-size:18px;color:#2ACEF4">{{ nowTime | formatDate }}</span>
         </div>
       </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel" @click="handleRouterPush('list')">
-          <div class="card-panel-icon-wrapper icon-message">
-            <i class="iconfont el-icon-dms-lixian" style="font-size:65px;"></i>
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">当前离线数</div>
-            <count-to class="card-panel-num" :startVal="0" :endVal="parseInt(fourCount.offlineCount)" :duration="2000"></count-to>
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="12" class="card-panel-col">
-        <div class="card-panel" @click="handleRouterPush('breathData')">
-        <el-row>
-          <el-col :xs="12" :sm="12" :lg="12">
-            <div class="card-panel-icon-wrapper icon-money">
-              <i class="iconfont el-icon-dms-gaojing" style="font-size:65px;"></i>
-            </div>
-            <div class="card-panel-description">
-              <div class="card-panel-text">今日告警总数</div>
-              <count-to class="card-panel-num" :startVal="0" :endVal="parseInt(fourCount.totalCautionCount)" :duration="2000"></count-to>
+      <el-col :xs="10" :sm="10" :lg="10" >
+        <el-row >
+          <el-col :xs="4" :sm="4" :lg="4" >
+            <div style="text-align:right;height:50px;">
+              <img src="~@/assets/img/title_left.png"/>
             </div>
           </el-col>
-          <el-col :xs="12" :sm="12" :lg="12">
-            <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
-              <i class="iconfont el-icon-dms-lixian" style="color:#6699FF;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">下线告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.offlineCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
+          <el-col :xs="16" :sm="16" :lg="16">
+            <div style="text-align:center;height:45px;">
+              <span style="line-height:45px;color:white;font-size:30px;letter-spacing:3px;font-weight:bold;margin-left:10px;margin-right:10px">HORUS平台大屏监控</span>
             </div>
-            <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
-              <i class="iconfont el-icon-dms-cpu" style="color:green;font-size:20px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">CPU温度过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
-            </div>
-            <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
-              <i class="iconfont el-icon-dms-xuniyingpan" style="color:orange;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">磁盘可用空间过低告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
+          </el-col>
+          <el-col :xs="4" :sm="4" :lg="4">
+            <div style="text-align:left;height:50px;">
+              <img src="~@/assets/img/title_right.png"/>
             </div>
           </el-col>
         </el-row>
+      </el-col>
+      <el-col :xs="7" :sm="7" :lg="7" >
+
+      </el-col>
+    </el-row>
+    <el-row :gutter="20" style="margin-top:20px;">
+      <el-col :xs="9" :sm="9" :lg="9" >
+        <div class="sumDataLeft">
+          <el-row>
+            <el-col :xs="5" :sm="5" :lg="5" >
+              <div style="height:137px;">
+                <img style="margin-top:35px;margin-left:30px;" src="~@/assets/img/online.png" />
+              </div>
+            </el-col>
+            <el-col :xs="7" :sm="7" :lg="7">
+              <div style="height:58px;margin-top:10px;border-right:1px dashed #FFFFFD;padding-top: 20px;">
+                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">当前在线数</span>
+              </div>
+              <div style="height:69px;margin-top:-10px;border-right:1px dashed #FFFFFD;">
+                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.onlineCount)" :duration="2000"></count-to>
+              </div>
+            </el-col>
+            <el-col :xs="5" :sm="5" :lg="5" >
+              <div style="height:137px;">
+                <img style="margin-top:35px;margin-left:30px;" src="~@/assets/img/offline.png" />
+              </div>
+            </el-col>
+            <el-col :xs="7" :sm="7" :lg="7" >
+              <div style="height:58px;margin-top:10px;padding-top: 20px;">
+                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">当前离线数</span>
+              </div>
+              <div style="height:69px;margin-top:-10px;">
+                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.offlineCount)" :duration="2000"></count-to>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </el-col>
+      <el-col :xs="15" :sm="15" :lg="15" >
+        <div class="sumDataRight"> 
+          <el-row>
+            <el-col :xs="3" :sm="3" :lg="3" >
+              <div style="height:137px;">
+                <img style="margin-top:43px;margin-left:35px;" src="~@/assets/img/alarm.png" />
+              </div>
+            </el-col>
+            <el-col :xs="4" :sm="4" :lg="4" >
+              <div style="height:58px;margin-top:10px;border-right:1px dashed #FFFFFD;padding-top: 20px;">
+                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">今日告警总数</span>
+              </div>
+              <div style="height:69px;margin-top:-10px;border-right:1px dashed #FFFFFD;">
+                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.totalCautionCount)" :duration="2000"></count-to>
+              </div>
+            </el-col>
+            <el-col :xs="5" :sm="5" :lg="5" >
+              <div style="height:58px;margin-top:10px;padding-top: 20px;">
+                <img style="margin-left:20px;" src="~@/assets/img/offline_s.png" />
+                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">下线告警总数</span>
+              </div>
+              <div style="height:69px;margin-top:-10px;">
+                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.offlineCautionCount)" :duration="2000"></count-to>
+                <span style="font-size:14px;color:#FFFFFD;">次</span>
+              </div>
+            </el-col>
+            <el-col :xs="6" :sm="6" :lg="6" >
+              <div style="height:58px;margin-top:10px;padding-top: 20px;">
+                <img style="" src="~@/assets/img/chip.png" />
+                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">CPU温度过高告警数</span>
+              </div>
+              <div style="height:69px;margin-top:-10px;">
+                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.cpuCautionCount)" :duration="2000"></count-to>
+                <span style="font-size:14px;color:#FFFFFD;">次</span>
+              </div>
+            </el-col>
+            <el-col :xs="6" :sm="6" :lg="6" >
+              <div style="height:58px;margin-top:10px;padding-top: 20px;">
+                <img style="" src="~@/assets/img/disk.png" />
+                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">磁盘可用空间过低告警数</span>
+              </div>
+              <div style="height:69px;margin-top:-10px;">
+                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.diskCautionCount)" :duration="2000"></count-to>
+                <span style="font-size:14px;color:#FFFFFD;">次</span>
+              </div>
+            </el-col>
+          </el-row>
+
         </div>
       </el-col>
     </el-row>
+
+
+
+
+
     <div v-loading="dataListLoading">
-      <el-row style="margin-bottom:10px;" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
+      <el-row style="" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
         <div v-if="index % 2 == 0">
-          <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="index">
-            <div style="border: 1px solid #f2f2f2; border-radius:5px; padding: 10px">
+          <el-col :xs="24" :sm="24" :lg="12" style="margin-top:20px;" :key="index">
+            <div style="border-radius:10px; padding: 10px;background-color:#1C1E4F">
               <div class="div_item_title" >
-                <el-button v-if="servers[index].serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
+                <el-button v-if="servers[index].serverInfo.isOnline == 1" size="mini" type="primary" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
                 <el-button v-if="servers[index].serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
                 <span style="line-height: 18px;color: white ;font-size: 14px;">{{servers[index].serverInfo.computerName}}</span>
                 <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="removeServer(servers[index].serverInfo.carrierpsn)">移除</el-button>
               </div>
               <line-chart :chart-data="servers[index].cpuChartData"></line-chart>
               <div>
-                <el-row >
-                  <el-col :xs="8" :sm="8" :lg="8">
+                <el-row style="margin-top:10px;">
+                  <el-col :xs="8" :sm="8" :lg="8" style="border-right:1px dashed white;">
                     <div class="card-panel-location">
                       <i class="iconfont el-icon-dms-icon-test" style="color:#66FFFF;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: white;font-size: 14px;">温度:</span>
                     </div>
                     <div v-if="servers[index].serverInfo.Temperature == null || servers[index].serverInfo.Temperature == ''">
                         <p  style="height:20px;line-height:20px;font-size:10px;color: white;"><span>暂无数据</span></p>
                     </div>
-                    <div v-else>
-                        <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in servers[index].serverInfo.Temperature">
-                            <p style="font-size:10px;color: white;"><span>{{item.deviceName}}</span><span style="float:right;font-size:12px;color: #66FFFF;">{{item.sensorValue}} ℃</span></p>
-                        </div>
+                    <div style="height:130px;" v-else>
+                      <el-row>
+                        <el-col :xs="12" :sm="12" :lg="12" v-for="item in servers[index].serverInfo.Temperature" :key="index">
+                          <div style="height:auto;padding:5px 15px 0px 10px;">
+                            <p style="font-size:10px;color: white;"><span>{{item.deviceName}}</span></p>
+                            <p><span style="font-size:20px; color: #2ACBF3;">{{item.sensorValue}} ℃</span></p>
+                          </div>
+                        </el-col>
+                      </el-row>
                     </div>
                   </el-col>
-                  <el-col :xs="6" :sm="6" :lg="6">
-                    <div class="card-panel-location">
+                  <el-col :xs="6" :sm="6" :lg="6" style="border-right:1px dashed white;">
+                    <div class="card-panel-location" style="margin-left:10px;">
                       <i class="iconfont el-icon-dms-neicun" style="color:#66FFFF;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px; line-height: 18px;color: white;font-size: 14px;">内存占用率:</span>
                     </div>
                     <div v-if="servers[index].serverInfo.Mainboard == null || servers[index].serverInfo.Mainboard == ''">
                         <p  style="height:20px;line-height:20px;font-size:10px;color: white;"><span>暂无数据</span></p>
                     </div>
                     <div v-else>
-                        <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in servers[index].serverInfo.Mainboard">
-                            <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
-                                <el-progress :stroke-width="6" type="circle" :width="50" :percentage="parseFloat(item.sensorValue)" color="#CC6600"></el-progress>
+                        <div style="height:130px;margin-top: 10px;text-align:center; " v-for="item in servers[index].serverInfo.Mainboard">
+                            <p style="" v-show="item.sensorClass == 'Utilization'">
+                                <el-progress :stroke-width="8" type="circle" :width="120" :percentage="parseFloat(item.sensorValue)" color="#FBB03B"></el-progress>
                             </p>
                         </div>
                     </div> 
                   </el-col>
                   <el-col :xs="10" :sm="10" :lg="10">
-                    <div class="card-panel-location">
+                    <div class="card-panel-location"  style="margin-left:10px;">
                       <i class="iconfont el-icon-dms-yingpan" style="color:#66FFFF;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: white;font-size: 14px;">硬盘占用率:</span>
                     </div>
                     <div v-if="servers[index].serverInfo.Drive == null || servers[index].serverInfo.Drive == ''">
                         <p  style="height:20px;line-height:20px;font-size:10px;color: white;"><span>暂无数据</span></p>
                     </div>
                     <div v-else>
-                        <div v-for="item in servers[index].serverInfo.Drive">
+                        <div style="margin-left:20px; margin-top:6px; width:90%;" v-for="item in servers[index].serverInfo.Drive">
                             <div>
                               <span style="font-size:10px;color:white;">{{item.sensorName}}</span><span style="float:right;font-size:12px;color: #66FFFF;">{{item.sensorValue}} %</span>
                             </div>
@@ -115,54 +188,59 @@
             </div>
           </el-col>
 
-          <el-col v-if="index < servers.length - 1" :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="(index+1)" >
-            <div style="border: 1px solid #f2f2f2; border-radius:5px; padding: 10px">
+          <el-col v-if="index < servers.length - 1" :xs="24" :sm="24" :lg="12" style="margin-top:20px;" :key="(index+1)" >
+            <div style="border-radius:10px; padding: 10px;background-color:#1C1E4F">
               <div class="div_item_title">
-                <el-button v-if="servers[index + 1].serverInfo.isOnline == 1" size="mini" type="success" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
+                <el-button v-if="servers[index + 1].serverInfo.isOnline == 1" size="mini" type="primary" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
                 <el-button v-if="servers[index + 1].serverInfo.isOnline == 0" size="mini" type="info"  style="padding:5px;"  circle><i class="iconfont el-icon-dms-lixian" style="font-size:14px;"></i></el-button>
                 <span style="line-height: 18px;color: white;font-size: 14px;">{{servers[index + 1].serverInfo.computerName}}</span>
                 <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="removeServer(servers[index + 1].serverInfo.carrierpsn)">移除</el-button>
               </div>
               <line-chart :chart-data="servers[index + 1].cpuChartData"></line-chart>
               <div>
-                <el-row >
-                  <el-col :xs="8" :sm="8" :lg="8">
+                <el-row style="margin-top:10px;">
+                  <el-col :xs="8" :sm="8" :lg="8" style="border-right:1px dashed white;">
                     <div class="card-panel-location">
                       <i class="iconfont el-icon-dms-icon-test" style="color:#66FFFF;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: white;font-size: 14px;">温度:</span>
                     </div>
                     <div v-if="servers[index + 1].serverInfo.Temperature == null || servers[index + 1].serverInfo.Temperature == ''">
                         <p  style="height:20px;line-height:20px;font-size:10px;color: white;"><span>暂无数据</span></p>
                     </div>
-                    <div v-else>
-                        <div style="height:auto;padding:5px 15px 0px 10px;" v-for="item in servers[index + 1].serverInfo.Temperature">
-                            <p style="font-size:10px;color: white;"><span>{{item.deviceName}}</span><span style="float:right;font-size:12px;color:#66FFFF;">{{item.sensorValue}} ℃</span></p>
-                        </div>
+                    <div style="height:130px;" v-else>
+                      <el-row>
+                        <el-col :xs="12" :sm="12" :lg="12" v-for="item in servers[index + 1].serverInfo.Temperature" :key="index">
+                          <div style="height:auto;padding:5px 15px 0px 10px;">
+                            <p style="font-size:10px;color: white;"><span>{{item.deviceName}}</span></p>
+                            <p><span style="font-size:20px; color: #2ACBF3;">{{item.sensorValue}} ℃</span></p>
+                          </div>
+                        </el-col>
+                      </el-row>
                     </div>
                   </el-col>
-                  <el-col :xs="6" :sm="6" :lg="6">
-                    <div class="card-panel-location">
+                  <el-col :xs="6" :sm="6" :lg="6" style="border-right:1px dashed white;">
+                    <div class="card-panel-location" style="margin-left:10px;">
                       <i class="iconfont el-icon-dms-neicun" style="color:#66FFFF;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px; line-height: 18px;color: white;font-size: 14px;">内存占用率:</span>
                     </div>
                     <div v-if="servers[index + 1].serverInfo.Mainboard == null || servers[index + 1].serverInfo.Mainboard == ''">
                         <p  style="height:20px;line-height:20px;font-size:10px;color: white;"><span>暂无数据</span></p>
                     </div>
                     <div v-else>
-                        <div style="height:auto;padding:5px 15px 0px 25px; text-aligh:center;" v-for="item in servers[index + 1].serverInfo.Mainboard">
-                            <p style="height:20px" v-show="item.sensorClass == 'Utilization'">
-                                <el-progress :stroke-width="6" type="circle" :width="50" :percentage="parseFloat(item.sensorValue)" color="#CC6600"></el-progress>
+                        <div style="height:130px;margin-top: 10px; text-align:center;" v-for="item in servers[index + 1].serverInfo.Mainboard">
+                            <p style="" v-show="item.sensorClass == 'Utilization'">
+                                <el-progress :stroke-width="8" type="circle" :width="120" :percentage="parseFloat(item.sensorValue)" color="#FBB03B"></el-progress>
                             </p>
                         </div>
                     </div> 
                   </el-col>
                   <el-col :xs="10" :sm="10" :lg="10">
-                    <div class="card-panel-location">
+                    <div class="card-panel-location" style="margin-left:10px;">
                       <i class="iconfont el-icon-dms-yingpan" style="color:#66FFFF;font-size:16px;margin-left:5px;"></i><span style="margin-left:5px;line-height: 18px;color: white;font-size: 14px;">硬盘占用率:</span>
                     </div>
                     <div v-if="servers[index + 1].serverInfo.Drive == null || servers[index + 1].serverInfo.Drive == ''">
                         <p  style="height:20px;line-height:20px;font-size:10px;color: white;"><span>暂无数据</span></p>
                     </div>
                     <div v-else>
-                        <div v-for="item in servers[index + 1].serverInfo.Drive">
+                        <div style="margin-left:20px; margin-top:6px; width:90%;" v-for="item in servers[index + 1].serverInfo.Drive">
                             <div>
                               <span style="font-size:10px;color: white;">{{item.sensorName}}</span><span style="float:right;font-size:12px;color: #66FFFF;">{{item.sensorValue}} %</span>
                             </div>
@@ -187,6 +265,11 @@
   import CountTo from 'vue-count-to'
   import LineChart from '@/components/LineChart'
   import serverList from '@/components/home-server-component'
+
+  // 在月份、日期、小时等小于10前面补0
+  var padDate = function (value) {
+    return value < 10 ? '0' + value : value
+  }
   export default {
     components: {
       CountTo,
@@ -203,6 +286,7 @@
           offlineCautionCount: 0,
           cpuCautionCount: 0
         },
+        nowTime: new Date(),
         serverInfo: '',
         dataListLoading: false,
         carrierPSNList: '',
@@ -215,14 +299,31 @@
         serverListVisible: false
       }
     },
+    filters: {
+      formatDate (value) {
+        var date = new Date(value)
+        var year = date.getFullYear()
+        var month = padDate(date.getMonth() + 1)
+        var day = padDate(date.getDate())
+        var hours = padDate(date.getHours())
+        var minutes = padDate(date.getMinutes())
+        var seconds = padDate(date.getSeconds())
+        return year + '年' + month + '月' + day + '日' + ' ' + hours + ':' + minutes + ':' + seconds
+      }
+    },
     mounted () {
       var vmObject = this
       vmObject.getDataList(false)
       this.$message('按【F11】键全屏')
-      setInterval(
+      this.refreshList = setInterval(
         function () {
           vmObject.getDataList(true)
         }, 120000)
+      this.timer = setInterval(
+        function () {
+          // 修改数据date
+          vmObject.nowTime = new Date()
+        }, 1000)
     },
     methods: {
       // 设置全屏
@@ -352,12 +453,21 @@
           this.servers.push({'serverInfo': this.serverInfo, 'cpuChartData': {'xAxisName': '', 'countName': 'cpu使用率', 'tableData': ''}})
         }
       }
+    },
+    beforeDestroy: function () {
+      if (this.timer) {
+        clearInterval(this.timer)
+      }
+      if (this.refreshList) {
+        clearInterval(this.refreshList)
+      }
     }
   }
 </script>
 <style>  
   .el-progress__text {
     color:white;
+    font-size: 24px!important;
   }
 
 </style>
@@ -368,8 +478,8 @@
   .dashboard-editor-container {
     padding: 32px;
     margin-top: -30px;
-    /* background: url('~@/assets/img/bg.jpg'); */
-    background-color: #052850;
+    background: url('~@/assets/img/bg.png');
+    /*background-color: #052850;*/
     background-size:100% 100%;
     .chart-wrapper {
       background: #fff;
@@ -379,7 +489,7 @@
   }
   .div_item_title {
     height: 30px;
-    border-bottom: 1px solid #eaeef2;
+    /*border-bottom: 1px solid #eaeef2;*/
   }
   .panel-group {
     margin-top: 18px;
@@ -462,9 +572,8 @@
     }
   }
   .card-panel-location {
-    margin-top: 10px;
+    
     margin-bottom: 5px;
-    margin-left: 0px;
     .card-panel-text {
       line-height: 18px;
       color: #f2f2f2;
@@ -508,6 +617,18 @@
         border: 1px solid #f2f2f2;
       }
     }
+  }
+  .sumDataLeft {
+    height:137px;
+    width: 100%;
+    background:url('~@/assets/img/sum_left.png');
+    background-size:100% 100%;
+  }
+  .sumDataRight {
+    height:137px;
+    width: 100%;
+    background:url('~@/assets/img/sum_right.png');
+    background-size:100% 100%;
   }
 </style>
 

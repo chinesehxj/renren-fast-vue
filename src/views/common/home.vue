@@ -41,7 +41,7 @@
               <i class="iconfont el-icon-dms-lixian" style="color:#6699FF;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">下线告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.offlineCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
             <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
-              <i class="iconfont el-icon-dms-cpu" style="color:green;font-size:20px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">CPU温度过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
+              <i class="iconfont el-icon-dms-cpu1" style="color:green;font-size:20px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">CPU温度过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
             <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
               <i class="iconfont el-icon-dms-xuniyingpan" style="color:orange;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">磁盘可用空间过低告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>

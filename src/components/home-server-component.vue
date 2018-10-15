@@ -6,7 +6,7 @@
   <div class="mod-server">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.owners" size="small" placeholder="负责人" clearable></el-input>
+        <el-input v-model="dataForm.carrierpsn" size="small" placeholder="PSN" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()" size="small" icon="el-icon-search">查询</el-button>
@@ -136,7 +136,7 @@
     data () {
       return {
         dataForm: {
-          name: ''
+          carrierpsn: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -145,12 +145,17 @@
         dataListLoading: false,
         dataListSelections: [],
         batchUpdate: false,
-        visible: false
+        visible: false,
+        psnList: ''
       }
     },
     methods: {
+      getServerList (psnList) {
+        this.psnList = psnList
+        this.getDataList()
+      },
       // 获取数据列表
-      getDataList (psnList) {
+      getDataList () {
         this.dataListLoading = true
         this.$http({
           url: this.$http.adornUrl('/server/list'),
@@ -158,7 +163,7 @@
           params: this.$http.adornParams({
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
-            'owners': this.dataForm.owners
+            'carrierpsn': this.dataForm.carrierpsn
           }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -172,9 +177,10 @@
           this.visible = true
         }).then(() => {
           var rows = this.dataList
+          var psnListTmp = this.psnList
           if (rows) {
             rows.forEach(row => {
-              if (psnList.indexOf(row.carrierpsn) !== -1) {
+              if (psnListTmp.indexOf(row.carrierpsn) !== -1) {
                 this.$refs.multipleTable.toggleRowSelection(row)
               }
             })

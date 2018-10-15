@@ -344,7 +344,7 @@
         this.serverListVisible = true
         var psnList = this.carrierPSNList
         this.$nextTick(() => {
-          this.$refs.showServerList.getDataList(psnList)
+          this.$refs.showServerList.getServerList(psnList)
         })
       },
       showBoard () {

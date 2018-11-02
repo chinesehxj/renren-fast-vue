@@ -50,10 +50,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="状态" size="mini" prop="status">
+      <el-form-item label="类别" size="mini" prop="status">
         <el-radio-group v-model="dataForm.status">
-          <el-radio :label="0">禁用</el-radio>
-          <el-radio :label="1">正常</el-radio>
+          <el-radio :label="0">存储</el-radio>
+          <el-radio :label="1">服务器</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>

@@ -163,7 +163,8 @@
           params: this.$http.adornParams({
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
-            'carrierpsn': this.dataForm.carrierpsn
+            'carrierpsn': this.dataForm.carrierpsn,
+            'type': '1'
           }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {

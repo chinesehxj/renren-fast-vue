@@ -48,7 +48,7 @@
           prop="companyName"
           header-align="center"
           align="center"
-          width="120"
+          width="180"
           label="机构名称">
         </el-table-column>
         <el-table-column
@@ -76,7 +76,7 @@
           prop="comment"
           header-align="center"
           align="center"
-          width="200"
+          width="350"
           label="备注说明">
         </el-table-column>
         <el-table-column
@@ -86,7 +86,7 @@
           v-if="false"
           label="负责人">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="status"
           header-align="center"
           align="center"
@@ -95,7 +95,7 @@
             <el-tag v-if="scope.row.status === 0" size="small" type="danger">禁用</el-tag>
             <el-tag v-else size="small">正常</el-tag>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="createTime"
           header-align="center"
@@ -173,7 +173,8 @@
           params: this.$http.adornParams({
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
-            'owners': this.dataForm.owners
+            'owners': this.dataForm.owners,
+            'type': '1'
           }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {

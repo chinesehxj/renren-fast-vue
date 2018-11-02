@@ -67,11 +67,11 @@ import {
   // Cascader,
   // ColorPicker,
   // Transfer,
-  // Container,
-  // Header,
-  // Aside,
-  // Main,
-  // Footer,
+  Container,
+  Header,
+  Aside,
+  Main,
+  Footer,
   Loading,
   MessageBox,
   Message
@@ -136,11 +136,11 @@ Vue.use(Card)
 // Vue.use(Cascader)
 // Vue.use(ColorPicker)
 // Vue.use(Transfer)
-// Vue.use(Container)
-// Vue.use(Header)
-// Vue.use(Aside)
-// Vue.use(Main)
-// Vue.use(Footer)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Aside)
+Vue.use(Main)
+Vue.use(Footer)
 
 Vue.use(Loading.directive)
 

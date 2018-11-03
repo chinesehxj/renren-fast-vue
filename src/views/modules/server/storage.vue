@@ -39,8 +39,8 @@
                     </el-card>
                 </div>
             </el-aside>
-            <el-main>
-                <el-tabs type="border-card">
+            <el-main v-loading="dataListLoading">
+                <el-tabs type="border-card" >
                     <div v-for="(nodeInfo,index) in nodeInfoList" :key="index">
                     <el-tab-pane :label="nodeInfo.nodeId" style="padding-bottom:10px;">
                         <el-card shadow='hover' :body-style="{padding:'10px'}">
@@ -198,7 +198,8 @@
       data () {
         return {
           clusterList: '',
-          nodeInfoList: ''
+          nodeInfoList: '',
+          dataListLoading: false
         }
       },
       activated () {
@@ -240,6 +241,7 @@
           })
         },
         getNodeInfo (psn) {
+          this.dataListLoading = true
           this.$http({
             url: this.$http.adornUrl('/storage/nodeInfo'),
             method: 'get',
@@ -248,9 +250,11 @@
             }, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
+              this.dataListLoading = false
               console.log(data.list)
               this.nodeInfoList = data.list
             } else {
+              this.dataListLoading = false
             }
           })
         }

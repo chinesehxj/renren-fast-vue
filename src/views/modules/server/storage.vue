@@ -24,6 +24,12 @@
                                 <p class="p_content_item"><span>设备状态</span><span style="float:right;">{{item.deviceStatus}}</span></p>
                             </div>
                             <div>
+                                <p class="p_content_item"><span>读带宽</span><span style="float:right;">{{item.deviceReadBand}} MBps</span></p>
+                            </div>
+                            <div>
+                                <p class="p_content_item"><span>写带宽</span><span style="float:right;">{{item.deviceWriteBand}} MBps</span></p>
+                            </div>
+                            <div>
                                 <p class="p_content_item"><span>总容量</span><span style="float:right;">{{item.deviceCapacity}} GB</span></p>
                             </div>
                             <div>
@@ -47,6 +53,21 @@
                         <div style="">
                             <el-row class="panel-add">
                                 <el-col :xs="24" :sm="24" :lg="24">
+                                    <div class="">
+                                        <p class="p_node_item"><span>电源信息</span></p>
+                                        <div v-if="nodeInfo.powerList == null || nodeInfo.powerList == ''">
+                                            <p  class="p_node_content" style="font-size:14px;"><span>暂无数据</span></p>
+                                        </div>
+                                        <div v-else v-for="powerInfo in nodeInfo.powerList">
+                                            <el-row :gutter="5" >
+                                                <el-col :xs="24" :sm="12" :lg="5">
+                                                    <div>
+                                                        <p class="p_node_content"><span>状态:</span><span style="margin-left:10px;">{{powerInfo.deviceStatus}}</span></p>
+                                                    </div>
+                                                </el-col>
+                                            </el-row>
+                                        </div>
+                                    </div>
                                     <div class="">
                                         <p class="p_node_item"><span>CPU信息</span></p>
                                         <div v-if="nodeInfo.cpu == null || nodeInfo.cpu == ''">

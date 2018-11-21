@@ -18,6 +18,8 @@ const _import = require('./import-' + process.env.NODE_ENV)
 const globalRoutes = [
   { path: '/404', component: _import('common/404'), name: '404', meta: { title: '404未找到' } },
   { path: '/board', component: _import('common/board'), name: 'board', meta: { title: '大屏监控' } },
+  { path: '/boardNext', component: _import('common/board-next'), name: 'boardNext', meta: { title: '大屏监控' } },
+  { path: '/mapBoard', component: _import('common/map-board'), name: 'mapBoard', meta: { title: '全国数据分析' } },
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } }
 ]
 

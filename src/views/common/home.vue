@@ -1,6 +1,5 @@
 <template>
   <div >
-    <div style="height: 20px;margin-top: -20px;margin-right: -20px;"> <i class="iconfont el-icon-dms-quanping" style="color:rgba(0, 0, 0, 0.45); font-size:25px; float:right;" @click="showBoard"></i></div>
     <el-row class="panel-group" :gutter="40">
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class='card-panel' @click="handleRouterPush('list')">

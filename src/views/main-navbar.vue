@@ -17,10 +17,24 @@
       <el-menu
         class="site-navbar__menu site-navbar__menu--right"
         mode="horizontal">
-        <el-menu-item index="1" @click="$router.push({ name: 'theme' })">
+        <el-menu-item index="1" @click="showBoard()">
           <template slot="title">
             <el-badge >
-              <icon-svg name="shezhi" class="el-icon-setting"></icon-svg>
+              <icon-svg name="fullscreen" style="font-size:20px;color:#909399"></icon-svg>
+            </el-badge>
+          </template> 
+        </el-menu-item>
+        <el-menu-item index="2" @click="showMapBoard()">
+          <template slot="title">
+            <el-badge >
+              <icon-svg name="map" style="font-size:24px;"></icon-svg>
+            </el-badge>
+          </template> 
+        </el-menu-item>
+        <el-menu-item index="3" @click="$router.push({ name: 'theme' })">
+          <template slot="title">
+            <el-badge >
+              <icon-svg name="shezhi" class="el-icon-setting" style="font-size:24px;"></icon-svg>
             </el-badge>
           </template>
         </el-menu-item>
@@ -87,6 +101,14 @@
         this.$nextTick(() => {
           this.$refs.updatePassowrd.init()
         })
+      },
+      showBoard () {
+        let {href} = this.$router.resolve({path: `/board`})
+        window.open(href, '_blank')
+      },
+      showMapBoard () {
+        let {href} = this.$router.resolve({path: `/mapBoard`})
+        window.open(href, '_blank')
       },
       // 退出
       logoutHandle () {

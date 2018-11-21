@@ -3,8 +3,8 @@
     <el-row style="margin-top:20px;">
       <el-col :xs="7" :sm="7" :lg="7" >
         <div style="margin-left:30px;margin-top:20px;">
-          <span style="font-size:18px;color:#2ACEF4">{{ nowTime | formatDate }}</span>
-        </div>
+          <!-- <span style="font-size:18px;color:#2ACEF4">{{ nowTime | formatDate }}</span>-->
+        </div> 
       </el-col>
       <el-col :xs="10" :sm="10" :lg="10" >
         <el-row >
@@ -29,99 +29,12 @@
 
       </el-col>
     </el-row>
-    <el-row :gutter="20" style="margin-top:20px;">
-      <el-col :xs="9" :sm="9" :lg="9" >
-        <div class="sumDataLeft">
-          <el-row>
-            <el-col :xs="5" :sm="5" :lg="5" >
-              <div style="height:137px;">
-                <img style="margin-top:35px;margin-left:30px;" src="~@/assets/img/online.png" />
-              </div>
-            </el-col>
-            <el-col :xs="7" :sm="7" :lg="7">
-              <div style="height:58px;margin-top:10px;border-right:1px dashed #FFFFFD;padding-top: 20px;">
-                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">当前在线数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;border-right:1px dashed #FFFFFD;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.onlineCount)" :duration="2000"></count-to>
-              </div>
-            </el-col>
-            <el-col :xs="5" :sm="5" :lg="5" >
-              <div style="height:137px;">
-                <img style="margin-top:35px;margin-left:30px;" src="~@/assets/img/offline.png" />
-              </div>
-            </el-col>
-            <el-col :xs="7" :sm="7" :lg="7" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">当前离线数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.offlineCount)" :duration="2000"></count-to>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
-      <el-col :xs="15" :sm="15" :lg="15" >
-        <div class="sumDataRight"> 
-          <el-row>
-            <el-col :xs="3" :sm="3" :lg="3" >
-              <div style="height:137px;">
-                <img style="margin-top:43px;margin-left:35px;" src="~@/assets/img/alarm.png" />
-              </div>
-            </el-col>
-            <el-col :xs="4" :sm="4" :lg="4" >
-              <div style="height:58px;margin-top:10px;border-right:1px dashed #FFFFFD;padding-top: 20px;">
-                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">今日告警总数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;border-right:1px dashed #FFFFFD;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.totalCautionCount)" :duration="2000"></count-to>
-              </div>
-            </el-col>
-            <el-col :xs="5" :sm="5" :lg="5" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <img style="margin-left:20px;" src="~@/assets/img/offline_s.png" />
-                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">下线告警总数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.offlineCautionCount)" :duration="2000"></count-to>
-                <span style="font-size:14px;color:#FFFFFD;">次</span>
-              </div>
-            </el-col>
-            <el-col :xs="6" :sm="6" :lg="6" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <img style="" src="~@/assets/img/chip.png" />
-                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">CPU温度过高告警数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.cpuCautionCount)" :duration="2000"></count-to>
-                <span style="font-size:14px;color:#FFFFFD;">次</span>
-              </div>
-            </el-col>
-            <el-col :xs="6" :sm="6" :lg="6" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <img style="" src="~@/assets/img/disk.png" />
-                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">磁盘可用空间过低告警数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.diskCautionCount)" :duration="2000"></count-to>
-                <span style="font-size:14px;color:#FFFFFD;">次</span>
-              </div>
-            </el-col>
-          </el-row>
-
-        </div>
-      </el-col>
-    </el-row>
 
 
-
-
-
-    <div v-loading="dataListLoading">
+    <div v-loading="dataListLoading" style="height: 997px;">
       <el-row style="" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
         <div v-if="index % 2 == 0">
-          <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="index">
+          <el-col :xs="24" :sm="24" :lg="12" style="margin-top:20px;" :key="index">
             <div style="border-radius:10px; padding: 10px;background-color:#1C1E4F">
               <div class="div_item_title" >
                 <el-button v-if="servers[index].serverInfo.isOnline == 1" size="mini" type="primary" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
@@ -129,7 +42,7 @@
                 <span style="line-height: 18px;color: white ;font-size: 14px;">{{servers[index].serverInfo.computerName}}</span>
                 <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="removeServer(servers[index].serverInfo.carrierpsn)">移除</el-button>
               </div>
-              <line-chart :chart-data="servers[index].cpuChartData"></line-chart>
+              <line-chart :chart-data="servers[index].cpuChartData" height="250px" ></line-chart>
               <div>
                 <el-row style="margin-top:10px;height: 160px;">
                   <el-col :xs="8" :sm="8" :lg="8" style="border-right:1px dashed white;">
@@ -188,7 +101,7 @@
             </div>
           </el-col>
 
-          <el-col v-if="index < servers.length - 1" :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="(index+1)" >
+          <el-col v-if="index < servers.length - 1" :xs="24" :sm="24" :lg="12" style="margin-top:20px;" :key="(index+1)" >
             <div style="border-radius:10px; padding: 10px;background-color:#1C1E4F">
               <div class="div_item_title">
                 <el-button v-if="servers[index + 1].serverInfo.isOnline == 1" size="mini" type="primary" style="padding:5px;" circle><i class="iconfont el-icon-dms-zaixian" style="font-size:14px;"></i></el-button>
@@ -196,7 +109,7 @@
                 <span style="line-height: 18px;color: white;font-size: 14px;">{{servers[index + 1].serverInfo.computerName}}</span>
                 <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="removeServer(servers[index + 1].serverInfo.carrierpsn)">移除</el-button>
               </div>
-              <line-chart :chart-data="servers[index + 1].cpuChartData"></line-chart>
+              <line-chart :chart-data="servers[index + 1].cpuChartData" height="250px"></line-chart>
               <div>
                 <el-row style="margin-top:10px;height: 160px;">
                   <el-col :xs="8" :sm="8" :lg="8" style="border-right:1px dashed white;">
@@ -296,7 +209,8 @@
           tableData: []
         },
         servers: [],
-        serverListVisible: false
+        serverListVisible: false,
+        pageParam: 0
       }
     },
     filters: {
@@ -312,6 +226,8 @@
       }
     },
     mounted () {
+      console.log('pageParam:' + this.$route.query.index)
+      this.pageParam = this.$route.query.index
       var vmObject = this
       vmObject.getDataList(false)
       this.$message('按【F11】键全屏')
@@ -342,6 +258,7 @@
       },
       // 获取首页数据
       getDataList (intervalFlag) {
+        console.log(new Date())
         this.$http({
           url: this.$http.adornUrl('/home/getSummariseData'),
           method: 'get',
@@ -349,23 +266,14 @@
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.carrierPSNList = data.info
-            // 获取汇总数据
-            this.$http({
-              url: this.$http.adornUrl('/home/sumData'),
-              method: 'post',
-              data: this.$http.adornData({
-                'carrierPSNList': this.carrierPSNList
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.fourCount.onlineCount = data.info.onlineCount
-                this.fourCount.offlineCount = data.info.offlineCount
-                this.fourCount.totalCautionCount = data.info.totalCautionCount
-                this.fourCount.diskCautionCount = data.info.diskCautionCount
-                this.fourCount.cpuCautionCount = data.info.cpuCautionCount
-                this.fourCount.offlineCautionCount = data.info.offlineCautionCount
-              } else {}
-            })
+            console.log('psn个数:' + this.carrierPSNList.length)
+            var startLoc = (this.pageParam - 1) * 4
+            var endLoc = 0
+            if (this.pageParam * 4 < this.carrierPSNList.length) {
+              endLoc = this.pageParam * 4
+            } else {
+              endLoc = this.carrierPSNList.length
+            }
             // 获取每个服务器数据
             if (!intervalFlag) {
               this.dataListLoading = true
@@ -374,7 +282,7 @@
               url: this.$http.adornUrl('/home/getCpuUseRate'),
               method: 'post',
               data: this.$http.adornData({
-                'carrierPSNList': this.carrierPSNList.slice(0, 4)
+                'carrierPSNList': this.carrierPSNList.slice(startLoc, endLoc)
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
@@ -424,7 +332,8 @@
         })
       },
       gotoNext () {
-        let routeData = this.$router.resolve({path: '/boardNext', query: { index: 2 }})
+        var pageNum = parseInt(this.pageParam) + 1
+        let routeData = this.$router.resolve({path: '/boardNext', query: { index: pageNum }})
         window.open(routeData.href, '_blank')
       },
       // 封装走势图数据

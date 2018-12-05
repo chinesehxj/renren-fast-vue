@@ -105,14 +105,14 @@
         this.$http({
           url: this.$http.adornUrl('/sys/sysparam/getParamTypes'),
           method: 'get',
-          params: this.$http.adornParams()
+          params: this.$http.adornParams({}, false)
         }).then(({data}) => {
           this.paramTypes = data && data.code === 0 ? data.page : []
         }).then(() => {
           this.$http({
             url: this.$http.adornUrl('/sys/sysparam/select'),
             method: 'get',
-            params: this.$http.adornParams()
+            params: this.$http.adornParams({}, false)
           }).then(({data}) => {
             console.log(data)
             this.parentList = treeDataTranslate(data, 'id')
@@ -131,7 +131,7 @@
               this.$http({
                 url: this.$http.adornUrl(`/sys/sysparam/info/${this.dataForm.id}`),
                 method: 'get',
-                params: this.$http.adornParams()
+                params: this.$http.adornParams({}, false)
               }).then(({data}) => {
                 if (data && data.code === 0) {
                   this.dataForm.paramType = data.sysParam.paramType

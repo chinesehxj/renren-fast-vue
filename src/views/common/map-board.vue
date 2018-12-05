@@ -29,90 +29,7 @@
 
       </el-col>
     </el-row>
-    <!-- <el-row :gutter="20" style="margin-top:20px;">
-      <el-col :xs="9" :sm="9" :lg="9" >
-        <div class="sumDataLeft">
-          <el-row>
-            <el-col :xs="5" :sm="5" :lg="5" >
-              <div style="height:137px;">
-                <img style="margin-top:35px;margin-left:30px;" src="~@/assets/img/online.png" />
-              </div>
-            </el-col>
-            <el-col :xs="7" :sm="7" :lg="7">
-              <div style="height:58px;margin-top:10px;border-right:1px dashed #FFFFFD;padding-top: 20px;">
-                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">当前在线数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;border-right:1px dashed #FFFFFD;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.onlineCount)" :duration="2000"></count-to>
-              </div>
-            </el-col>
-            <el-col :xs="5" :sm="5" :lg="5" >
-              <div style="height:137px;">
-                <img style="margin-top:35px;margin-left:30px;" src="~@/assets/img/offline.png" />
-              </div>
-            </el-col>
-            <el-col :xs="7" :sm="7" :lg="7" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">当前离线数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.offlineCount)" :duration="2000"></count-to>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
-      <el-col :xs="15" :sm="15" :lg="15" >
-        <div class="sumDataRight"> 
-          <el-row>
-            <el-col :xs="3" :sm="3" :lg="3" >
-              <div style="height:137px;">
-                <img style="margin-top:43px;margin-left:35px;" src="~@/assets/img/alarm.png" />
-              </div>
-            </el-col>
-            <el-col :xs="4" :sm="4" :lg="4" >
-              <div style="height:58px;margin-top:10px;border-right:1px dashed #FFFFFD;padding-top: 20px;">
-                <span style="font-size:20px;color:#FFFFFD;letter-spacing:2px;">今日告警总数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;border-right:1px dashed #FFFFFD;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;" :startVal="0" :endVal="parseInt(fourCount.totalCautionCount)" :duration="2000"></count-to>
-              </div>
-            </el-col>
-            <el-col :xs="5" :sm="5" :lg="5" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <img style="margin-left:20px;" src="~@/assets/img/offline_s.png" />
-                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">下线告警总数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.offlineCautionCount)" :duration="2000"></count-to>
-                <span style="font-size:14px;color:#FFFFFD;">次</span>
-              </div>
-            </el-col>
-            <el-col :xs="6" :sm="6" :lg="6" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <img style="" src="~@/assets/img/chip.png" />
-                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">CPU温度过高告警数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.cpuCautionCount)" :duration="2000"></count-to>
-                <span style="font-size:14px;color:#FFFFFD;">次</span>
-              </div>
-            </el-col>
-            <el-col :xs="6" :sm="6" :lg="6" >
-              <div style="height:58px;margin-top:10px;padding-top: 20px;">
-                <img style="" src="~@/assets/img/disk.png" />
-                <span style="font-size:14px;margin-left:5px;color:#FFFFFD;letter-spacing:2px;line-height: 38px;">磁盘可用空间过低告警数</span>
-              </div>
-              <div style="height:69px;margin-top:-10px;">
-                <count-to style="font-size:35px;font-weight:bold;color:#FFFFFD;margin-left: 65px;" :startVal="0" :endVal="parseInt(fourCount.diskCautionCount)" :duration="2000"></count-to>
-                <span style="font-size:14px;color:#FFFFFD;">次</span>
-              </div>
-            </el-col>
-          </el-row>
-
-        </div>
-      </el-col>
-    </el-row> -->
+    
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :lg="18">
         
@@ -242,19 +159,15 @@
         },
         chartSettings: {
           position: 'china',
-          label: false,
+          label: {
+            show: true,
+            color: '#fff'
+          },
           itemStyle: {
-            areaColor: 'rgb(41,116,240,0.5)',
-            borderColor: '#26CCE2',
             normal: {
-              label: {
-                show: true
-              }
-            },
-            emphasis: {
-              label: {
-                show: true
-              }
+              areaColor: 'rgba(38,204,226,0.6)',
+              borderColor: '#26CCE2',
+              opacity: 1
             }
           },
           zoom: 1.2,
@@ -353,9 +266,12 @@
       getDataList (intervalFlag) {
         console.log(new Date())
         this.$http({
-          url: this.$http.adornUrl('/home/getSummariseData'),
+          url: this.$http.adornUrl('/home/getAllServerPSNListForMapBoard'),
           method: 'get',
-          params: this.$http.adornParams({}, false)
+          params: this.$http.adornParams({
+            'pageIndex': '',
+            'pageSize': ''
+          }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.carrierPSNList = data.info

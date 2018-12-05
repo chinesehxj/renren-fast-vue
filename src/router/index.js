@@ -20,6 +20,7 @@ const globalRoutes = [
   { path: '/board', component: _import('common/board'), name: 'board', meta: { title: '大屏监控' } },
   { path: '/boardNext', component: _import('common/board-next'), name: 'boardNext', meta: { title: '大屏监控' } },
   { path: '/mapBoard', component: _import('common/map-board'), name: 'mapBoard', meta: { title: '全国数据分析' } },
+  { path: '/list', component: _import('modules/server/list'), name: 'list', meta: { title: '节点页面' } },
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } }
 ]
 

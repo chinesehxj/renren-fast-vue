@@ -118,7 +118,7 @@
 
 
 
-    <div v-loading="dataListLoading">
+    <div v-loading="dataListLoading" style="height: 840px;">
       <el-row style="" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
         <div v-if="index % 2 == 0">
           <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="index">

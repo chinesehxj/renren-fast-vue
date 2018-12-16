@@ -14,12 +14,12 @@ import 'iview/dist/styles/iview.css'
 import '@/assets/iconfont/iconfont.css'
 import 'babel-polyfill'
 import VCharts from 'v-charts'
-import Visjs from 'vis'
+// import Visjs from 'vis'
 
 Vue.use(VueCookie)
 Vue.use(iView)
 Vue.use(VCharts)
-Vue.use(Visjs)
+// Vue.use(Visjs)
 Vue.config.productionTip = false
 
 // 非生产环境, 适配mockjs模拟数据                 // api: https://github.com/nuysoft/Mock

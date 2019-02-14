@@ -14,7 +14,6 @@ import 'iview/dist/styles/iview.css'
 import '@/assets/iconfont/iconfont.css'
 import 'babel-polyfill'
 import VCharts from 'v-charts'
-// import Visjs from 'vis'
 
 Vue.use(VueCookie)
 Vue.use(iView)

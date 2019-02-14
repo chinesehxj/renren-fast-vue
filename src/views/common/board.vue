@@ -15,7 +15,7 @@
           </el-col>
           <el-col :xs="16" :sm="16" :lg="16">
             <div style="text-align:center;height:45px;" @click="gotoNext">
-              <span style="line-height:45px;color:white;font-size:30px;letter-spacing:3px;font-weight:bold;margin-left:10px;margin-right:10px">HORUS平台大屏监控</span>
+              <span style="line-height:45px;color:white;font-size:30px;letter-spacing:3px;font-weight:bold;margin-left:10px;margin-right:10px">雷特硬件检测大屏监控</span>
             </div>
           </el-col>
           <el-col :xs="4" :sm="4" :lg="4">

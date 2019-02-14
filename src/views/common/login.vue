@@ -6,8 +6,8 @@
           <h2 class="brand-info__text">renren-fast-vue</h2>
           <p class="brand-info__intro">renren-fast-vue基于vue、element-ui构建开发，实现renren-fast后台管理前端功能，提供一套更优的前端解决方案。</p>
         </div> -->
-      <div style="text-align:center;"><img src="~@/assets/img/dy.png" style="width:200px;"/></div>
-      <div style="text-align:center; margin-top:20px; margin-bottom:20px;"><p style="font-size:30px;color:#002b70;font-weight:bolder;">HORUS硬件监测平台</p></div>
+      <div style="text-align:center;"><img src="~@/assets/img/dy1.png" style="width:500px;"/></div>
+      <div style="text-align:center; margin-top:20px; margin-bottom:20px;"><p style="font-size:30px;color:#002b70;font-weight:bolder;">雷特硬件检测平台</p></div>
         <div class="login-main">
           <div class="login-form">
             <h3 class="login-title"></h3>

@@ -46,7 +46,10 @@ export default {
 
     // 监听侧边栏的变化
     const sidebarElm = document.getElementsByClassName('site-sidebar')[0]
-    sidebarElm.addEventListener('transitionend', this.__resizeHanlder)
+    // modified by hexiaojun 2018-12-18
+    if (sidebarElm) {
+      sidebarElm.addEventListener('transitionend', this.__resizeHanlder)
+    }
   },
   watch: {
     chartData: {

@@ -54,7 +54,7 @@
           @hover-node="hoverNode($event)"
           @show-popup="showPopup($event)">
       </network>
-      <el-button v-if="editAble" type="success" :disabled="noNeedSave" size="small" style="position: absolute; top:37px; right:37px" @click="insertOrUpdateTopology()">保存拓扑图</el-button>
+      <el-button v-if="editAble" type="success" :disabled="noNeedSave" size="small" style="position: absolute; top:0px; right:0px" @click="insertOrUpdateTopology()">保存拓扑图</el-button>
       <topology-server-view v-if="serverViewVisible" ref="serverView"></topology-server-view>
     </div>
 </template>
@@ -98,10 +98,15 @@
             label: '',
             type: '',
             title: '',
-            shape: 'image', //modify on 2019-2-13 21:35:11 将Icon换成实物图形 原来的代码为 shape: 'icon',
+            shape: 'icon',
             x: 0,
             y: 0,
-            image:''  //modify on 2019-2-13 21:35:11 将Icon换成实物图形 原来的代码为 icon: {code: '', color: '', face: '', size: ''}
+            icon: {
+              face: 'iconfont',
+              code: '',
+              size: 50,
+              color: ''
+            }
           },
           network: {
             nodes: new DataSet(),
@@ -119,14 +124,14 @@
             nodeType: ''
           },
           nodeTypeList: [
-            //modify on 2019-2-13 21:35:11 将Icon换成实物图形 start
-            {id:'~@/assets/img/server.png',type:'server', name:'服务器'},
-            {id:'~@/assets/img/server1u.png',type:'storage', name:'存储服务器'}
-            // {id:'\ue607',type:'server', name:'服务器'},
-            // {id:'\ue625',type:'storage', name:'存储服务器'},
-            // {id:'\ue628',type:'switch', name:'交换机'},
-            // {id:'\ue626',type:'router', name:'路由器'}
-            //modify on 2019-2-13 21:35:11 将Icon换成实物图形 end
+            {id:'\ue607',type:'server', name:'服务器'},
+            {id:'\ue625',type:'storage', name:'存储服务器'},
+            {id:'\ue628',type:'switch', name:'交换机'},
+            {id:'\ue626',type:'router', name:'路由器'}
+            // {id:'a', name:'服务器'},
+            // {id:'b', name:'存储服务器'},
+            // {id:'c', name:'交换机'},
+            // {id:'d', name:'路由器'}
           ],
           editAble: false
         }
@@ -350,24 +355,18 @@
           this.dataTmp.id = this.dataForm.carrierpsn
           this.dataTmp.label = this.dataForm.serverCode
           this.dataTmp.type = this.dataForm.nodeType
-          // modify on 2019-2-13 21:35:11 将Icon换成实物图形 start
-          // if(this.dataForm.nodeType === 'server') {
-          //   this.dataTmp.icon.code = '\ue607'
-          // } else if(this.dataForm.nodeType === 'storage') {
-          //   this.dataTmp.icon.code = '\ue625'
-          // } else if(this.dataForm.nodeType === 'switch') {
-          //   this.dataTmp.icon.code = '\ue628'
-          // } else {
-          //   this.dataTmp.icon.code = '\ue626'
-          // }
-          // this.dataTmp.icon.color = 'blue'
-          if(this.dataForm.nodeType === 'server') {
-            this.dataTmp.image = '../../src/assets/img/server.png'
-          } else  {
-            this.dataTmp.image = '../../src/assets/img/server.png'
-          } 
-          // modify on 2019-2-13 21:35:11 将Icon换成实物图形 end
 
+          if(this.dataForm.nodeType === 'server') {
+            this.dataTmp.icon.code = '\ue607'
+          } else if(this.dataForm.nodeType === 'storage') {
+            this.dataTmp.icon.code = '\ue625'
+          } else if(this.dataForm.nodeType === 'switch') {
+            this.dataTmp.icon.code = '\ue628'
+          } else {
+            this.dataTmp.icon.code = '\ue626'
+          }
+
+          this.dataTmp.icon.color = 'blue'
           //以下对象转json字符串,再从json字符串转成json对象的过程必须要有,否则icon图标会被最后一添加的覆盖
           nodeData = JSON.stringify(this.dataTmp)
           this.callbackFun(JSON.parse(nodeData))
@@ -411,7 +410,7 @@
     .mynetwork {
       position:relative;
       width: 100%;
-      height: 750px;
+      height: 900px;
       border: 1px solid lightgray;
     }
     // table.legend_table {

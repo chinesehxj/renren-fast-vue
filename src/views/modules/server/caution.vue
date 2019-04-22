@@ -1,13 +1,13 @@
 <template>
-  <div class="mod-company">
+  <div class="mod-server">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.name" size="small" placeholder="机构名" clearable></el-input>
+        <el-input v-model="dataForm.carrierpsn" size="small" placeholder="PSN" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()" size="small" icon="el-icon-search">查询</el-button>
-        <el-button v-if="isAuth('sys:company:save')" type="primary" @click="addOrUpdateHandle()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
-        <el-button v-if="isAuth('sys:company:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-delete">批量删除</el-button>
+        <el-button type="primary" @click="addCaution()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
+        <el-button type="danger" @click="batchDeleteHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-delete">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -27,78 +27,49 @@
         header-align="center"
         align="center"
         v-if="false"
-        width="80"
+        width="60"
         label="ID">
       </el-table-column>
       <el-table-column
-        prop="name"
+        prop="carrierPSN"
         header-align="center"
         align="center"
-        width="120"
-        label="机构名称">
+        width="200"
+        label="PSN">
       </el-table-column>
       <el-table-column
-        prop="code"
+        prop="computerName"
         header-align="center"
         align="center"
-        label="机构编号">
+        width="300"
+        label="服务器名称">
       </el-table-column>
       <el-table-column
-        prop="address"
+        prop="comment"
         header-align="center"
         align="center"
-        width="220"
-        label="机构地址">
-      </el-table-column>
-      <el-table-column
-        prop="contact"
-        header-align="center"
-        align="center"
-        label="联系人">
-      </el-table-column>
-      <el-table-column
-        prop="phone"
-        header-align="center"
-        align="center"
-        width="140"
-        label="联系电话">
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        header-align="center"
-        align="center"
-        label="状态">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" size="small" type="danger">禁用</el-tag>
-          <el-tag v-else size="small">正常</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        header-align="center"
-        align="center"
-        width="180"
-        label="创建时间">
+        width="600"
+        label="告警条件描述">
       </el-table-column>
       <el-table-column
         prop="updateTime"
         header-align="center"
         align="center"
-        width="180"
+        width="250"
         label="更新时间">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
-        width="150"
+        width="200"
         label="操作">
         <template slot-scope="scope" >
-          <el-tooltip content="修改" :open-delay="1500" :hide-after="5000">
-            <el-button v-if="isAuth('sys:company:update')" type="primary" icon="el-icon-edit"  size="mini" @click="addOrUpdateHandle(scope.row.id)" circle></el-button>
+          <el-tooltip content="查看或修改" :open-delay="1500" :hide-after="5000">
+            <el-button type="primary" icon="el-icon-edit"  size="mini" @click="addOrUpdateHandle(scope.row.id)" circle></el-button>
           </el-tooltip>
           <el-tooltip content="删除" :open-delay="1500" :hide-after="5000">
-            <el-button v-if="isAuth('sys:company:delete')" type="danger" icon="el-icon-delete" size="mini" @click="deleteHandle(scope.row.id)" circle></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteHandle(scope.row.id)" circle></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -112,18 +83,19 @@
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-    <!-- 弹窗, 新增 / 修改 -->
-    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
+    <caution-list v-if="serverListVisible" ref="showServerList" @refreshDataList="getDataList()"></caution-list>
+    <caution-info-update v-if="cautionInfoUpdateVisible" ref="cautionInfoUpdate" @refreshDataList="getDataList()"></caution-info-update>
   </div>
 </template>
 
 <script>
-  import AddOrUpdate from './company-add-or-update'
+  import cautionList from '@/components/caution-server-component'
+  import cautionInfoUpdate from '@/components/caution-update-component'
   export default {
     data () {
       return {
         dataForm: {
-          name: ''
+          carrierpsn: ''
         },
         dataList: [],
         pageIndex: 1,
@@ -131,11 +103,13 @@
         totalPage: 0,
         dataListLoading: false,
         dataListSelections: [],
-        addOrUpdateVisible: false
+        serverListVisible: false,
+        cautionInfoUpdateVisible: false
       }
     },
     components: {
-      AddOrUpdate
+      cautionList,
+      cautionInfoUpdate
     },
     activated () {
       this.getDataList()
@@ -145,17 +119,17 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/company/list'),
+          url: this.$http.adornUrl('/caution/list'),
           method: 'get',
           params: this.$http.adornParams({
             'pageIndex': this.pageIndex,
             'pageSize': this.pageSize,
-            'name': this.dataForm.name
+            'carrierpsn': this.dataForm.carrierpsn
           }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
-            this.dataList = data.page
-            this.totalPage = data.totalCount
+            this.dataList = data.page.records
+            this.totalPage = data.page.total
           } else {
             this.dataList = []
             this.totalPage = 0
@@ -178,25 +152,45 @@
       selectionChangeHandle (val) {
         this.dataListSelections = val
       },
-      // 新增 / 修改
-      addOrUpdateHandle (id) {
-        this.addOrUpdateVisible = true
-        this.$nextTick(() => {
-          this.$refs.addOrUpdate.init(id)
-        })
-      },
       // 删除
       deleteHandle (id) {
-        var ids = id ? [id] : this.dataListSelections.map(item => {
-          return item.id
-        })
-        this.$confirm(`确定进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+        this.$confirm(`确定进行['删除']操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/company/delete'),
+            url: this.$http.adornUrl('/caution/delete'),
+            method: 'post',
+            data: this.$http.adornData(id, false)
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
+        })
+      },
+      // 批量删除
+      batchDeleteHandle () {
+        var ids = this.dataListSelections.map(item => {
+          return item.id
+        })
+        this.$confirm(`确定进行['批量删除']操作?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http({
+            url: this.$http.adornUrl('/caution/batchDelete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
@@ -213,6 +207,29 @@
               this.$message.error(data.msg)
             }
           })
+        })
+      },
+      // // 批量分配
+      // batchUpdateHandle () {
+      //   this.batchUpdate = true
+      //   this.$nextTick(() => {
+      //     var ids = this.dataListSelections.map(item => {
+      //       return item.id
+      //     })
+      //     this.$refs.batchUpdate.init(ids)
+      //   })
+      // }
+      addCaution () {
+        this.serverListVisible = true
+        this.$nextTick(() => {
+          this.$refs.showServerList.getDataList()
+        })
+      },
+      addOrUpdateHandle (id) {
+        console.log(id)
+        this.cautionInfoUpdateVisible = true
+        this.$nextTick(() => {
+          this.$refs.cautionInfoUpdate.getCautionInfo(id)
         })
       }
     }

@@ -56,6 +56,10 @@
       </network>
       <el-button v-if="editAble" type="success" :disabled="noNeedSave" size="small" style="position: absolute; top:37px; right:37px" @click="insertOrUpdateTopology()">保存拓扑图</el-button>
       <topology-server-view v-if="serverViewVisible" ref="serverView"></topology-server-view>
+      <div>
+        <p style="margin-top:10px; font-size:16px;"><span style="width:20px; height:20px; background-color:red; display:inline-block;"></span>  服务器有告警</p>
+        <p style="margin-top:10px; font-size:16px;"><span style="width:20px; height:20px; background-color:gray; display:inline-block;"></span>  服务器离线</p>
+      </div>
     </div>
 </template>
 
@@ -120,8 +124,9 @@
           },
           nodeTypeList: [
             //modify on 2019-2-13 21:35:11 将Icon换成实物图形 start
-            {id:'~@/assets/img/server.png',type:'server', name:'服务器'},
-            {id:'~@/assets/img/server1u.png',type:'storage', name:'存储服务器'}
+            {id:'~@/assets/img/server.png',type:'server', name:'服务器'}
+            //{id:'~@/assets/img/server1u.png',type:'storage', name:'存储服务器'},
+            //{id:'~@/assets/img/jg.png',type:'jg', name:'机柜'}
             // {id:'\ue607',type:'server', name:'服务器'},
             // {id:'\ue625',type:'storage', name:'存储服务器'},
             // {id:'\ue628',type:'switch', name:'交换机'},
@@ -148,12 +153,18 @@
           }).then(({data}) => {
             console.log(data)
             this.editAble = data.editAble
+            
             //this.destroy()
-            console.log(JSON.parse(data.nodeStr))
             // create an array with nodes
-            this.network.nodes.add(JSON.parse(data.nodeStr))
+            var ns = data.nodeStr ? data.nodeStr : ''
+            if (ns !== '' ) {
+              this.network.nodes.add(JSON.parse(ns))
+            }
             // create an array with edges
-            this.network.edges.add(JSON.parse(data.edgeStr))
+            var es = data.edgeStr ? data.edgeStr : ''
+            if (es !== '' ) {
+              this.network.edges.add(JSON.parse(es))
+            }
             // create a network
            
             var obj = this
@@ -238,11 +249,12 @@
                 var selectNodesJson = JSON.parse(JSON.stringify(vmobj.network.nodes.get(data.statList[i].psn)))
                 if (selectNodesJson) {
                   if(data.statList[i].stat === '0') {
-                    selectNodesJson.icon.color = 'gray'
+                    //selectNodesJson.icon.color = 'gray'
+                    selectNodesJson.image = 'http://www.bingshuiwu.com:8088/img/serverOff.png'
                   } else if (data.statList[i].stat === '1') {
-                    selectNodesJson.icon.color = 'red'
+                    selectNodesJson.image = 'http://www.bingshuiwu.com:8088/img/serverOn.png'
                   } else {
-                    selectNodesJson.icon.color = 'green'
+                    selectNodesJson.image = 'http://www.bingshuiwu.com:8088/img/server.png'
                   }
                   vmobj.network.nodes.update(selectNodesJson)
                 }
@@ -362,9 +374,9 @@
           // }
           // this.dataTmp.icon.color = 'blue'
           if(this.dataForm.nodeType === 'server') {
-            this.dataTmp.image = '../../src/assets/img/server.png'
-          } else  {
-            this.dataTmp.image = '../../src/assets/img/server.png'
+            this.dataTmp.image = 'http://www.bingshuiwu.com:8088/img/server.png'
+          } else if(this.dataForm.nodeType === 'jg')  {
+            this.dataTmp.image = 'http://www.bingshuiwu.com:8088/img/jg.png'
           } 
           // modify on 2019-2-13 21:35:11 将Icon换成实物图形 end
 

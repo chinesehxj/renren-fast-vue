@@ -36,7 +36,7 @@ const mainRoutes = {
     // 通过meta对象设置路由展示方式
     // 1. isTab: 是否通过tab展示内容, true: 是, false: 否
     // 2. iframeUrl: 是否通过iframe嵌套展示内容, '以http[s]://开头': 是, '': 否
-    { path: '/home', component: _import('common/home'), name: 'home', meta: { title: '我的看板' } },
+    { path: '/home', component: _import('common/home1'), name: 'home', meta: { title: '我的看板' } },
     { path: '/theme', component: _import('common/theme'), name: 'theme', meta: { title: '主题' } },
     {
       path: '/demo-01',

@@ -139,7 +139,9 @@
           totalCautionCount: 0,
           diskCautionCount: 0,
           offlineCautionCount: 0,
-          cpuCautionCount: 0
+          cpuCautionCount: 0,
+          cpuUseCautionCount: 0,
+          memUseCautionCount: 0
         },
         nowTime: new Date(),
         serverInfo: '',
@@ -275,6 +277,7 @@
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.carrierPSNList = data.info
+            console.log(data.info)
             // 获取汇总数据
             this.$http({
               url: this.$http.adornUrl('/home/sumData'),
@@ -290,8 +293,10 @@
                 this.fourCount.diskCautionCount = data.info.diskCautionCount
                 this.fourCount.cpuCautionCount = data.info.cpuCautionCount
                 this.fourCount.offlineCautionCount = data.info.offlineCautionCount
+                this.fourCount.cpuUseCautionCount = data.info.cpuUseCautionCount
+                this.fourCount.memUseCautionCount = data.info.memUseCautionCount
                 this.pieChartData.rows = []
-                this.pieChartData.rows.push({ '告警类别': '下线告警数', '数量': data.info.offlineCautionCount }, { '告警类别': 'CPU温度过高告警数', '数量': data.info.cpuCautionCount }, { '告警类别': '磁盘可用空间过低告警数', '数量': data.info.diskCautionCount })
+                this.pieChartData.rows.push({ '告警类别': '下线告警数', '数量': data.info.offlineCautionCount }, { '告警类别': 'CPU温度过高告警数', '数量': data.info.cpuCautionCount }, { '告警类别': '磁盘可用空间过低告警数', '数量': data.info.diskCautionCount }, { '告警类别': 'CPU使用率过高告警数', '数量': data.info.cpuUseCautionCount }, { '告警类别': '内存使用率过高告警数', '数量': data.info.memUseCautionCount })
               } else {}
             })
           }

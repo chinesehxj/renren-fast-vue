@@ -5,7 +5,7 @@
             <el-aside width="300px">
                 <div style="margin-bottom:10px;" v-for="item in clusterList">
                     <el-card shadow='hover' :body-style="{padding:'10px'}">
-                        <div class="div_item_title" >
+                        <div style='border-bottom: 1px solid #f2f2f2'>
                             <i class="iconfont el-icon-dms-jiqunfuwu" style="font-size:20px;"></i>
                             <span style="line-height: 18px;color: rgba(0, 0, 0, 0.45);font-size: 14px;">{{item.computerName}}</span>
                             <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" round @click="">移除</el-button>

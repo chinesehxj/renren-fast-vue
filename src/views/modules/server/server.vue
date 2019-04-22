@@ -7,7 +7,7 @@
       <el-form-item>
         <el-button @click="getDataList()" size="small" icon="el-icon-search">查询</el-button>
         <el-button v-if="isAuth('server:save')" type="primary" @click="addOrUpdateHandle()" size="small" icon="el-icon-circle-plus-outline">新增</el-button>
-        <el-button v-if="isAuth('server:distribution')" type="danger" @click="batchUpdateHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-delete">批量分配</el-button>
+        <el-button v-if="isAuth('server:distribution')" type="danger" @click="batchUpdateHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-share">批量分配</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -148,7 +148,8 @@
     data () {
       return {
         dataForm: {
-          name: ''
+          name: '',
+          owners: ''
         },
         dataList: [],
         pageIndex: 1,

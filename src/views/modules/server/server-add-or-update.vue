@@ -34,7 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="机柜名(编号)" prop="frameId">
-        <el-select v-model="dataForm.frameId" placeholder="请选择" >
+        <el-select v-model="dataForm.frameId" placeholder="请选择">
           <el-option
             v-for="item in frameOptions"
             :key="item.id"
@@ -43,8 +43,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="服务器名(编号)" prop="serverCode">
-        <el-input v-model="dataForm.serverCode" placeholder="服务器名(编号)"></el-input>
+      <el-form-item label="自定义名(编号)" prop="serverCode">
+        <el-input v-model="dataForm.serverCode" placeholder="自定义名(编号)"></el-input>
       </el-form-item>
       </div>
       <el-form-item label="备注说明" prop="comment">
@@ -154,7 +154,7 @@
         }).then(() => {
           this.visible = true
           // this.getFrameList()
-          this.getUserItem()
+          // this.getUserItem()
           this.$nextTick(() => {
             this.$refs['dataForm'].resetFields()
           })
@@ -167,7 +167,38 @@
               params: this.$http.adornParams('', false)
             }).then(({data}) => {
               if (data && data.code === 0) {
-                console.log(data)
+                if (data.info.roomId) {
+                  this.$http({
+                    url: this.$http.adornUrl('/sys/sysparam/selectParamItems'),
+                    method: 'get',
+                    params: this.$http.adornParams({
+                      'param_type': 'server_frame',
+                      'parent_id': data.info.roomId
+                    }, false)
+                  }).then(({data}) => {
+                    this.frameOptions = data && data.code === 0 ? data.page : []
+                    console.log('frame:', data)
+                  })
+                } else {
+                  this.frameOptions = []
+                }
+                if (data.info.companyId) {
+                  this.$http({
+                    url: this.$http.adornUrl('/sys/user/userItems'),
+                    method: 'get',
+                    params: this.$http.adornParams({
+                      'company_id': data.info.companyId
+                    }, false)
+                  }).then(({data}) => {
+                    console.log('userlist', data)
+                    this.ownersOptions = data && data.code === 0 ? data.page : []
+                  })
+                } else {
+                  this.$message.error('请先选择机构')
+                  this.ownersOptions = []
+                }
+                // this.getFrameList()
+                console.log('serverUpdate:', data)
                 this.dataForm.carrierpsn = data.info.carrierpsn
                 this.dataForm.carrierusn = data.info.carrierusn
                 this.dataForm.companyId = data.info.companyId
@@ -177,7 +208,6 @@
                 this.dataForm.comment = data.info.comment
                 this.dataForm.userIdList = data.info.userIdList === null ? [] : data.info.userIdList
                 this.dataForm.status = data.info.status
-                this.getFrameList()
               }
             })
           }
@@ -236,6 +266,7 @@
       },
       // 获取机柜下拉框列表的值
       getFrameList () {
+        console.log('getFrameList:', this.dataForm.roomId)
         this.dataForm.frameId = ''
         if (this.dataForm.roomId) {
           this.$http({

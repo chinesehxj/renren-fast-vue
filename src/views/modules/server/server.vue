@@ -66,11 +66,18 @@
         label="机柜名(编号)">
       </el-table-column>
       <el-table-column
+        prop="serverName"
+        header-align="center"
+        align="center"
+        width="120"
+        label="服务器名">
+      </el-table-column>
+      <el-table-column
         prop="serverCode"
         header-align="center"
         align="center"
         width="120"
-        label="服务器名(编号)">
+        label="自定义名(编号)">
       </el-table-column>
       <el-table-column
         prop="comment"

@@ -34,22 +34,32 @@
         prop="carrierPSN"
         header-align="center"
         align="center"
-        width="200"
+        width="100"
         label="PSN">
       </el-table-column>
       <el-table-column
         prop="computerName"
         header-align="center"
         align="center"
-        width="300"
+        width="200"
         label="服务器名称">
       </el-table-column>
       <el-table-column
         prop="comment"
         header-align="center"
         align="center"
-        width="600"
         label="告警条件描述">
+      </el-table-column>
+      <el-table-column
+        prop="cautionLevel"
+        header-align="center"
+        align="center"
+        width="100"
+        label="告警级别">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.cautionLevel === '2'" size="small" type="danger">严重告警</el-tag>
+          <el-tag v-else size="small">一般告警</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         prop="updateTime"

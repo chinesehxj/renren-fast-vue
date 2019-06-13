@@ -70,7 +70,7 @@
                                     <div class='div_item_title'>
                                         <span class='span_item_title'>cpu信息</span>
                                     </div>
-                                    <div>
+                                    <div v-loading="cpuInfoLoading">
                                         <el-row :gutter='8' >
                                             <el-col :span="18" style="margin-top:15px;">
                                                 <el-card shadow='hover'>
@@ -85,7 +85,7 @@
                                                                 </div>
                                                             </el-col>
                                                             <el-col :span="19">
-                                                                <div id="lineChart" style="width:650px;height:300px;" ></div>
+                                                                <div id="lineChart" style="width:750px;height:400px;" ></div>
                                                             </el-col>
                                                         </el-row>
                                                     </div>
@@ -309,7 +309,7 @@
                                     type="index"
                                     header-align="center"
                                     align="center"
-                                    width="50"
+                                    width="80"
                                     label="序号">
                                     </el-table-column>
                                 <el-table-column
@@ -324,7 +324,6 @@
                                     prop="recordTime"
                                     header-align="center"
                                     align="center"
-                                    width="270"
                                     label="告警时间">
                                 </el-table-column>
                                 <el-table-column
@@ -347,7 +346,6 @@
                                     prop="cautionText"
                                     header-align="center"
                                     align="center"
-                                    width="400"
                                     label="告警内容">
                                 </el-table-column>
                                 <el-table-column
@@ -616,6 +614,7 @@ export default {
         cautionId: '',
         cautionText: ''
       },
+      cpuInfoLoading: false,
       options: [],
       activeName: '1',
       collectTime: '',
@@ -635,6 +634,7 @@ export default {
       dataListLoading: false,
       dataListSelections: [],
       addOrUpdateVisible: false,
+      cpuUtilizationAvg: 0,
       paramsPsn: '',
       roomName: '',
       frameName: '',
@@ -675,6 +675,13 @@ export default {
       xAxisData.splice(0, xAxisData.length)
       legendData.splice(0, legendData.length)
       seriesData.splice(0, seriesData.length)
+      if (IntervalObject !== null && IntervalObject !== '') {
+        clearInterval(IntervalObject)
+        console.log('************clear interval**********')
+      }
+    //   xAxisData = []
+    //   legendData = []
+    //   seriesData = []
       this.paramsPsn = psn
       this.roomName = roomName
       this.frameName = frameName
@@ -688,6 +695,7 @@ export default {
         }, 120000)
     },
     getDataList () {
+      this.cpuInfoLoading = true
       this.$http({
         url: this.$http.adornUrl('/device/info'),
         method: 'get',
@@ -715,10 +723,15 @@ export default {
         }, false)
       }).then(({data}) => {
         if (data && data.code === 0) {
+          this.cpuInfoLoading = false
           console.log(data)
           this.cpuInfo = data.info
+          this.cpuUtilizationAvg = data.info.cpuUtilizationAvg
           charData(data.info.Utilization)
-        } else {}
+          initGaugeChart(this.cpuUtilizationAvg)
+        } else {
+          this.cpuInfoLoading = false
+        }
       })
     },
     getCautionList () {
@@ -812,12 +825,17 @@ export default {
   }
 }
 function charData (dataList) {
-  var utilValue = 0
-  xAxisData.push(dataList[0].timeString)
+  // var utilValue = 0
+  // xAxisData.push(dataList[0].timeString)
   for (var i = 0; i < dataList.length; i++) {
     var legName = dataList[i].deviceName
+    var timeStr = dataList[i].timeString
+    var timeIndex = xAxisData.indexOf(timeStr)
     var arrIndex = legendData.indexOf(legName)
-    utilValue = parseFloat(utilValue) + parseFloat(dataList[i].sensorValue)
+    if (timeIndex === -1) {
+      xAxisData.push(timeStr)
+    }
+    // utilValue = parseFloat(utilValue) + parseFloat(dataList[i].sensorValue)
     if (arrIndex === -1) {
       legendData.push(legName)
       seriesData.push({'name': legName, 'type': 'line', 'smooth': false, 'data': [dataList[i].sensorValue]})
@@ -826,7 +844,7 @@ function charData (dataList) {
     }
   }
   normalLineChart('lineChart', 'cpu使用率', JSON.stringify(legendData), '%', JSON.stringify(xAxisData), JSON.stringify(seriesData))
-  initGaugeChart(utilValue / dataList.length)
+  // initGaugeChart(utilValue / dataList.length)
 }
 function normalLineChart (domId, title, legendData, unitStr, xAxisData, seriesData) {
   var myChart = echarts.init(document.getElementById(domId), 'macarons')
@@ -846,12 +864,12 @@ function normalLineChart (domId, title, legendData, unitStr, xAxisData, seriesDa
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '15%',
+      bottom: 80,
       top: 40,
       containLabel: true
     },
     legend: {
-      top: 'bottom',
+      bottom: 20,
       data: JSON.parse(legendData),
       textStyle: {
         fontSize: 10
@@ -864,6 +882,12 @@ function normalLineChart (domId, title, legendData, unitStr, xAxisData, seriesDa
         saveAsImage: {}
       }
     },
+    dataZoom: [{
+      type: 'slider',
+      start: 90,
+      end: 100,
+      bottom: 50
+    }],
     xAxis: {
       type: 'category',
       boundaryGap: false,

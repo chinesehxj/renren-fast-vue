@@ -34,8 +34,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="服务器名(编号)" prop="serverCode">
-        <el-input v-model="dataForm.serverCode" placeholder="服务器名(编号)"></el-input>
+      <el-form-item label="自定义名(编号)" prop="serverCode">
+        <el-input v-model="dataForm.serverCode" placeholder="自定义名(编号)"></el-input>
       </el-form-item>
       <el-form-item label="备注说明" prop="comment">
         <el-input v-model="dataForm.comment" placeholder="备注说明"></el-input>

@@ -1,6 +1,6 @@
 <template>
 <el-dialog
-    title="修改告警条件"
+    :title="cautionLevel === '2' ? '修改严重告警条件' : '修改一般告警条件'"
     :close-on-click-modal="false"
     :visible.sync="visible" width="500px">
   <div class="mod-server">
@@ -58,6 +58,7 @@
         deviceClass: '',
         sensorName: '',
         sensorClass: '',
+        cautionLevel: '',
         dataForm: {
           carrierpsn: '',
           computerName: ''
@@ -98,6 +99,7 @@
             this.dataForm.computerName = data.cautionInfo[0].computerName
             this.deviceClass = data.cautionInfo[0].deviceClass
             this.sensorName = data.cautionInfo[0].sensorName
+            this.cautionLevel = data.cautionInfo[0].cautionLevel
             this.sensorClass = data.cautionInfo[0].sensorClass
             if (this.deviceClass === 'Processor' && this.sensorName === 'Package' && this.sensorClass === 'Temperature') {
               this.showCpuTmp = true

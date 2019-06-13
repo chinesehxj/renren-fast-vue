@@ -74,11 +74,18 @@
         label="机柜名(编号)">
       </el-table-column>
       <el-table-column
+        prop="serverName"
+        header-align="center"
+        align="center"
+        width="120"
+        label="服务器名">
+      </el-table-column>
+      <el-table-column
         prop="serverCode"
         header-align="center"
         align="center"
         width="120"
-        label="服务器名(编号)">
+        label="自定义名(编号)">
       </el-table-column>
       <el-table-column
         prop="comment"
@@ -122,8 +129,8 @@
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-    <div style="margin-top: 10px;"><p style="font-size:16px; font-weight: bold;">第二步：设置告警条件</p></div>
     <el-form :inline="true" :model="cautionForm">
+    <div style="margin-top: 10px;"><p style="font-size:16px; font-weight: bold;">第二步：设置一般告警条件</p></div>
       <el-form-item label="当CPU利用率高于(%)" prop="cpuUtilization">
         <el-input v-model="cautionForm.cpuUtilization" size="small" placeholder="0.0" clearable></el-input>
       </el-form-item>
@@ -146,10 +153,33 @@
           </el-option>
         </el-select>
       </el-form-item>
+    <div style="margin-top: 10px;"><p style="font-size:16px; font-weight: bold;">第三步：设置严重告警条件</p></div>
+      <el-form-item label="当CPU利用率高于(%)" prop="cpuUtilization">
+        <el-input v-model="cautionForm.cpuUtilizationDanger" size="small" placeholder="0.0" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="当CPU温度高于(℃)" prop="cpuTemp">
+        <el-input v-model="cautionForm.cpuTempDanger" size="small" placeholder="0.0" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="当内存利用率高于(%)" prop="memUtilization">
+        <el-input v-model="cautionForm.memUtilizationDanger" size="small" placeholder="0.0" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="当硬盘使用率高于(%)" prop="diskUtilization">
+        <el-input v-model="cautionForm.diskUtilizationDanger" size="small" placeholder="0.0" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="负责人" prop="userIdList">
+        <el-select v-model="cautionForm.userIdListDanger" multiple @focus="getUserItem" placeholder="请选择">
+          <el-option
+            v-for="item in ownersOptions"
+            :key="item.userId"
+            :label="item.realName"
+            :value="item.userId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
       <div style="text-align: right;">
         <el-button type="danger" @click="batchUpdateHandle()" :disabled="dataListSelections.length <= 0" size="small" icon="el-icon-check">确认</el-button>
       </div>
-    </el-form>
   </div>
 </el-dialog>
 </template>
@@ -166,7 +196,12 @@
           cpuUtilization: '',
           cpuTemp: '',
           memUtilization: '',
-          diskUtilization: ''
+          diskUtilization: '',
+          userIdListDanger: '',
+          cpuUtilizationDanger: '',
+          cpuTempDanger: '',
+          memUtilizationDanger: '',
+          diskUtilizationDanger: ''
         },
         ownersOptions: [],
         dataList: [],
@@ -247,7 +282,12 @@
                 'cpuTemp': this.cautionForm.cpuTemp,
                 'memUtilization': this.cautionForm.memUtilization,
                 'diskUtilization': this.cautionForm.diskUtilization,
-                'userIdList': this.cautionForm.userIdList
+                'userIdList': this.cautionForm.userIdList,
+                'cpuUtilizationDanger': this.cautionForm.cpuUtilizationDanger,
+                'cpuTempDanger': this.cautionForm.cpuTempDanger,
+                'memUtilizationDanger': this.cautionForm.memUtilizationDanger,
+                'diskUtilizationDanger': this.cautionForm.diskUtilizationDanger,
+                'userIdListDanger': this.cautionForm.userIdListDanger
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

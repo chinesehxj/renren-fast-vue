@@ -9,8 +9,8 @@
         <el-form-item label="PSN编号" prop="carrierpsn">
           <el-input v-model="dataForm.carrierpsn" id="node-id" placeholder="PSN号"></el-input>
         </el-form-item>
-        <el-form-item label="服务器名(编号)" prop="serverCode">
-          <el-input v-model="dataForm.serverCode" id="node-label" placeholder="服务器名(编号)"></el-input>
+        <el-form-item label="自定义名(编号)" prop="serverCode">
+          <el-input v-model="dataForm.serverCode" id="node-label" placeholder="自定义名(编号)"></el-input>
         </el-form-item>
         <el-form-item label="节点类型" size="mini" prop="type">
           <el-select v-model="dataForm.nodeType" filterable placeholder="请选择节点类型" >

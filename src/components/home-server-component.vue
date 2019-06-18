@@ -53,7 +53,6 @@
         prop="companyName"
         header-align="center"
         align="center"
-        v-if="false"
         width="120"
         label="机构名称">
       </el-table-column>

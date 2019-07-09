@@ -42,7 +42,7 @@
         header-align="center"
         align="center"
         width="200"
-        label="服务器名称">
+        label="服务器自定义名称">
       </el-table-column>
       <el-table-column
         prop="comment"

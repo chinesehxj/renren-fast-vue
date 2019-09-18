@@ -9,21 +9,21 @@
       :data="dataList"
       border
       v-loading="dataListLoading"
-      style="width: 100%;">
-      <el-table-column
+      style="width: 100%;"
+      row-key="menuId">
+      <!-- <el-table-column
         prop="menuId"
         header-align="center"
         align="center"
         width="80"
         label="ID">
-      </el-table-column>
-      <table-tree-column
+      </el-table-column> -->
+      <el-table-column
         prop="name"
         header-align="center"
-        treeKey="menuId"
         width="150"
         label="名称">
-      </table-tree-column>
+      </el-table-column>
       <el-table-column
         prop="parentName"
         header-align="center"
@@ -94,7 +94,6 @@
 </template>
 
 <script>
-  import TableTreeColumn from '@/components/table-tree-column'
   import AddOrUpdate from './menu-add-or-update'
   import { treeDataTranslate } from '@/utils'
   export default {
@@ -107,7 +106,6 @@
       }
     },
     components: {
-      TableTreeColumn,
       AddOrUpdate
     },
     activated () {

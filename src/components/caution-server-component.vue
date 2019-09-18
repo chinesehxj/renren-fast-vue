@@ -130,7 +130,7 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-form :inline="true" :model="cautionForm">
-    <div style="margin-top: 10px;"><p style="font-size:16px; font-weight: bold;">第二步：设置一般告警条件</p></div>
+    <div style="margin-top: 10px;"><span style="font-size:16px; font-weight: bold;">第二步：设置一般告警条件</span><span style="font-size:14px; margin-left:5px; color:#de8a30; font-style: italic;">(CPU温度告警阈值默认75度)</span></div>
       <el-form-item label="当CPU利用率高于(%)" prop="cpuUtilization">
         <el-input v-model="cautionForm.cpuUtilization" size="small" placeholder="0.0" clearable></el-input>
       </el-form-item>
@@ -153,7 +153,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-    <div style="margin-top: 10px;"><p style="font-size:16px; font-weight: bold;">第三步：设置严重告警条件</p></div>
+    <div style="margin-top: 10px;"><span style="font-size:16px; font-weight: bold;">第三步：设置严重告警条件</span><span style="font-size:14px; margin-left:5px; color:#de8a30; font-style: italic;">(CPU温度告警阈值默认80度)</span></div>
       <el-form-item label="当CPU利用率高于(%)" prop="cpuUtilization">
         <el-input v-model="cautionForm.cpuUtilizationDanger" size="small" placeholder="0.0" clearable></el-input>
       </el-form-item>
@@ -194,12 +194,12 @@
         cautionForm: {
           userIdList: '',
           cpuUtilization: '',
-          cpuTemp: '',
+          cpuTemp: '75',
           memUtilization: '',
           diskUtilization: '',
           userIdListDanger: '',
           cpuUtilizationDanger: '',
-          cpuTempDanger: '',
+          cpuTempDanger: '80',
           memUtilizationDanger: '',
           diskUtilizationDanger: ''
         },

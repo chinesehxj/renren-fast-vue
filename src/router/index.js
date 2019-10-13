@@ -20,6 +20,7 @@ const globalRoutes = [
   { path: '/board', component: _import('common/board'), name: 'board', meta: { title: '大屏监控' } },
   { path: '/boardNext', component: _import('common/board-next'), name: 'boardNext', meta: { title: '大屏监控' } },
   { path: '/mapBoard', component: _import('common/map-board'), name: 'mapBoard', meta: { title: '全国数据分析' } },
+  { path: '/convergeBoard', component: _import('common/converge-board'), name: 'convergeBoard', meta: { title: '汇聚版大屏监控' } },
   { path: '/list', component: _import('modules/server/list'), name: 'list', meta: { title: '节点页面' } },
   { path: '/visview', component: _import('modules/server/visview'), name: 'visview', meta: { title: '拓扑页面' } },
   { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } }
@@ -46,6 +47,15 @@ const mainRoutes = {
         title: '我是一个通过iframe嵌套展示内容, 并通过tab打开 demo',
         isTab: true,
         iframeUrl: 'http://fast.demo.renren.io/'
+      }
+    },
+    {
+      path: '/convergeDetail',
+      component: _import('modules/server/converge-detail'),
+      name: 'convergeDetail',
+      meta: {
+        title: '终端详情',
+        isTab: true
       }
     }
   ],

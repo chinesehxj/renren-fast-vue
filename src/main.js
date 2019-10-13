@@ -14,10 +14,13 @@ import 'iview/dist/styles/iview.css'
 import '@/assets/iconfont/iconfont.css'
 import 'babel-polyfill'
 import VCharts from 'v-charts'
+// 大屏展示的组件
+import dataV from '@jiaminghi/data-view'
 
 Vue.use(VueCookie)
 Vue.use(iView)
 Vue.use(VCharts)
+Vue.use(dataV)
 // Vue.use(Visjs)
 Vue.config.productionTip = false
 

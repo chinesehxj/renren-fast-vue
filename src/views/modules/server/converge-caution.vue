@@ -57,7 +57,7 @@
         width="100"
         label="告警级别">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.cautionLevel === '2'" size="small" type="danger">严重告警</el-tag>
+          <el-tag v-if="scope.row.cautionLevel === 2" size="small" type="danger">严重告警</el-tag>
           <el-tag v-else size="small">一般告警</el-tag>
         </template>
       </el-table-column>
@@ -100,7 +100,7 @@
 
 <script>
   import cautionList from '@/components/converge-caution-component'
-  import cautionInfoUpdate from '@/components/caution-update-component'
+  import cautionInfoUpdate from '@/components/converge_caution-update-component'
   export default {
     data () {
       return {

@@ -84,13 +84,13 @@
         align="center"
         label="备注说明">
       </el-table-column>
-      <!-- <el-table-column
+      <el-table-column
         prop="owners"
         header-align="center"
         align="center"
         width="100"
         label="负责人">
-      </el-table-column> -->
+      </el-table-column>
       <!-- <el-table-column
         prop="status"
         header-align="center"
@@ -119,7 +119,7 @@
         fixed="right"
         header-align="center"
         align="center"
-        width="150"
+        width="180"
         label="操作">
         <template slot-scope="scope" >
           <el-tooltip content="修改" :open-delay="1500" :hide-after="5000">

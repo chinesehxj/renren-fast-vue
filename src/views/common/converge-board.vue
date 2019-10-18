@@ -158,7 +158,7 @@
                     <span style="line-height: 18px;color: #ffdb5c ;margin-left:10px;font-size: 14px;" v-if="VSNSTOItem.bnRackFanSpeed04 && VSNSTOItem.bnRackFanSpeed04.length > 0">{{VSNSTOItem.bnRackFanSpeed04}}</span>
                     <span style="line-height: 18px;color: #ffdb5c ;margin-left:10px;font-size: 14px;" v-else>未知</span>
                   </div>
-                  <div>
+                  <!-- <div>
                     <span style="line-height: 18px;color: white ;font-size: 12px;">底座风扇</span>
                   </div>
                   <div>
@@ -172,7 +172,7 @@
                     <span style="line-height: 18px;color: white ;margin-left:10px;font-size: 12px;">转速:</span>
                     <span style="line-height: 18px;color: #ffdb5c ;margin-left:10px;font-size: 14px;" v-if="VSNSTOItem.bnRackFanSpeed05 && VSNSTOItem.bnRackFanSpeed05.length > 0">{{VSNSTOItem.bnRackFanSpeed05}}</span>
                     <span style="line-height: 18px;color: #ffdb5c ;margin-left:10px;font-size: 14px;" v-else>未知</span>
-                  </div>
+                  </div> -->
                 </div>
               </el-col>
               <el-col :xs="6" :sm="6" :lg="6" style="padding-left:20px;margin-top:5px;">

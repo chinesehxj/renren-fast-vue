@@ -49,7 +49,7 @@ import {
   Tag,
   Tree,
   // Alert,
-  // Slider,
+  Slider,
   Icon,
   Row,
   Col,
@@ -58,8 +58,8 @@ import {
   Badge,
   Card,
   // Rate,
-  // Steps,
-  // Step,
+  Steps,
+  Step,
   // Carousel,
   // CarouselItem,
   // Collapse,
@@ -118,7 +118,7 @@ Vue.use(TabPane)
 Vue.use(Tag)
 Vue.use(Tree)
 // Vue.use(Alert)
-// Vue.use(Slider)
+Vue.use(Slider)
 Vue.use(Icon)
 Vue.use(Row)
 Vue.use(Col)
@@ -127,8 +127,8 @@ Vue.use(Progress)
 Vue.use(Badge)
 Vue.use(Card)
 // Vue.use(Rate)
-// Vue.use(Steps)
-// Vue.use(Step)
+Vue.use(Steps)
+Vue.use(Step)
 // Vue.use(Carousel)
 // Vue.use(CarouselItem)
 // Vue.use(Collapse)

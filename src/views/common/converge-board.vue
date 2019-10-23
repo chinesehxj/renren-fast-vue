@@ -264,7 +264,7 @@
                   <div style="height:200px;" v-else>
                     <div style="padding-top: 30px;text-align:center; ">
                       <p style="">
-                          <el-progress :stroke-width="8" type="circle" :width="120" :percentage="parseFloat(serItem.CPUutilization)" color="#fb7293"></el-progress>
+                        <el-progress :stroke-width="8" type="circle" :width="120" :percentage="parseFloat(serItem.CPUutilization)" color="#fb7293"></el-progress>
                       </p>
                     </div>
                   </div>

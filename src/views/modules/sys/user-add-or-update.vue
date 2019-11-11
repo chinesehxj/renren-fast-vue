@@ -12,6 +12,7 @@
       </el-form-item>
       <el-form-item label="密码" prop="password" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
+        <p>密码长度需为8到16位之间,并且需要包含数字、大写字母、小写字母</p>
       </el-form-item>
       <el-form-item label="确认密码" prop="comfirmPassword" :class="{ 'is-required': !dataForm.id }" >
         <el-input v-model="dataForm.comfirmPassword" type="password" placeholder="确认密码"></el-input>
@@ -52,12 +53,14 @@
 </template>
 
 <script>
-  import { isEmail, isMobile } from '@/utils/validate'
+  import { isEmail, isMobile, isPasswordValid } from '@/utils/validate'
   export default {
     data () {
       var validatePassword = (rule, value, callback) => {
         if (!this.dataForm.id && !/\S/.test(value)) {
           callback(new Error('密码不能为空'))
+        } else if (!this.dataForm.id && !isPasswordValid(value)) {
+          callback(new Error('密码格式不符合要求'))
         } else {
           callback()
         }

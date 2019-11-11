@@ -29,3 +29,15 @@ export function isPhone (s) {
 export function isURL (s) {
   return /^http[s]?:\/\/.*/.test(s)
 }
+
+/**
+ * 判断密码强度是否符合以下要求
+ * 长度8到16位
+ * 至少包含一个数字
+ * 至少包含一个小写字母
+ * 至少包含一个大写字母
+ * @param {*} s
+ */
+export function isPasswordValid (s) {
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/.test(s)
+}

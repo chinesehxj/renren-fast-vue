@@ -2,7 +2,7 @@
   <nav class="site-navbar" :class="'site-navbar--' + navbarLayoutType">
     <div class="site-navbar__header">
       <h1 class="site-navbar__brand" @click="$router.push({ name: 'home' })">
-        <a class="site-navbar__brand-lg" href="javascript:;">雷特硬件检测平台</a>
+        <a class="site-navbar__brand-lg" href="javascript:;">设备系统监控器</a>
         <a class="site-navbar__brand-mini" href="javascript:;"><icon-svg name="all"></icon-svg></a>
       </h1>
     </div>
@@ -31,10 +31,24 @@
             </el-badge>
           </template> 
         </el-menu-item>
+        <el-menu-item index="1" @click="showConvergeBoard()">
+          <template slot="title">
+            <el-badge >
+              <icon-svg name="zonghe" style="font-size:20px;color:#909399"></icon-svg>
+            </el-badge>
+          </template> 
+        </el-menu-item>
         <el-menu-item index="3" @click="$router.push({ name: 'theme' })">
           <template slot="title">
             <el-badge >
               <icon-svg name="shezhi" class="el-icon-setting" style="font-size:24px;"></icon-svg>
+            </el-badge>
+          </template>
+        </el-menu-item>
+        <el-menu-item index="4" @click="aboutHandle()">
+          <template slot="title">
+            <el-badge >
+              <p>关于我们</p>
             </el-badge>
           </template>
         </el-menu-item>
@@ -64,19 +78,23 @@
     </div>
     <!-- 弹窗, 修改密码 -->
     <update-password v-if="updatePassowrdVisible" ref="updatePassowrd"></update-password>
+    <about v-if="aboutVisible" ref="about"></about>
   </nav>
 </template>
 
 <script>
   import UpdatePassword from './main-navbar-update-password'
+  import About from './main-navbar-about'
   export default {
     data () {
       return {
-        updatePassowrdVisible: false
+        updatePassowrdVisible: false,
+        aboutVisible: false
       }
     },
     components: {
-      UpdatePassword
+      UpdatePassword,
+      About
     },
     computed: {
       navbarLayoutType: {
@@ -102,12 +120,23 @@
           this.$refs.updatePassowrd.init()
         })
       },
+      // 关于我们
+      aboutHandle () {
+        this.aboutVisible = true
+        this.$nextTick(() => {
+          this.$refs.about.init()
+        })
+      },
       showBoard () {
         let {href} = this.$router.resolve({path: `/board`})
         window.open(href, '_blank')
       },
       showMapBoard () {
         let {href} = this.$router.resolve({path: `/mapBoard`})
+        window.open(href, '_blank')
+      },
+      showConvergeBoard () {
+        let {href} = this.$router.resolve({path: `/convergeBoard`})
         window.open(href, '_blank')
       },
       // 退出

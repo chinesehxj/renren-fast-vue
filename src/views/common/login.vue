@@ -6,8 +6,8 @@
           <h2 class="brand-info__text">renren-fast-vue</h2>
           <p class="brand-info__intro">renren-fast-vue基于vue、element-ui构建开发，实现renren-fast后台管理前端功能，提供一套更优的前端解决方案。</p>
         </div> -->
-      <div style="text-align:center;"><img src="~@/assets/img/dy1.png" style="width:500px;"/></div>
-      <div style="text-align:center; margin-top:20px; margin-bottom:20px;"><p style="font-size:30px;color:#002b70;font-weight:bolder;">雷特硬件检测平台</p></div>
+      <div style="text-align:center;"><img src="~@/assets/img/dy.png" style="width:200px;"/></div>
+      <div style="text-align:center; margin-top:20px; margin-bottom:20px;"><p style="font-size:30px;color:#002b70;font-weight:bolder;">设备系统监控器V1.0</p></div>
         <div class="login-main">
           <div class="login-form">
             <h3 class="login-title"></h3>
@@ -16,8 +16,13 @@
                 <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
+                <!-- <el-input v-model="dataForm.passwordInput" @focus="onFocusDeal" type="password" ref="inputPassword" @change.native="onChangeDeal" @keyup.native="onChangeDeal" @blur="generaNewPwd" placeholder="密码"></el-input> -->
+                <el-input v-model="dataForm.passwordInput" type="password" placeholder="" style="opacity:0;filter:alpha(opacity=0)"></el-input>
               </el-form-item>
+              
+              <!-- <el-form-item prop="passwordEnCode">
+                <el-input v-model="dataForm.passwordEnCode" ref="passwordEncodeFocus" type="password" placeholder="密码" v-show="dataForm.pdEncodeFlag"></el-input>
+              </el-form-item> -->
               <el-form-item prop="captcha">
                 <el-row :gutter="20">
                   <el-col :span="14">
@@ -33,6 +38,9 @@
                 <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
               </el-form-item>
             </el-form>
+            <div style="position:relative; top:-186px;">
+              <el-input v-model="dataForm.password" type="password" ref="inputPassword" @blur="generaNewPwd" placeholder="密码"></el-input>
+            </div>
           </div>
         <!-- </div> -->
       </div>
@@ -41,23 +49,31 @@
 </template>
 
 <script>
+  // import encrypt from '@/api/modules/encrypt'
   import { getUUID } from '@/utils'
+  let Base64 = require('js-base64').Base64
   export default {
     data () {
       return {
         dataForm: {
           userName: '',
           password: '',
+          passwordEnCode: '',
+          passwordInput: '',
           uuid: '',
-          captcha: ''
+          captcha: '',
+          inputType: 'password',
+          encodeInputType: 'text',
+          pdFlag: true,
+          pdEncodeFlag: false
         },
         dataRule: {
           userName: [
             { required: true, message: '帐号不能为空', trigger: 'blur' }
           ],
-          password: [
-            { required: true, message: '密码不能为空', trigger: 'blur' }
-          ],
+          // password: [
+          //   { required: true, message: '密码不能为空', trigger: 'blur' }
+          // ],
           captcha: [
             { required: true, message: '验证码不能为空', trigger: 'blur' }
           ]
@@ -67,6 +83,17 @@
     },
     created () {
       this.getCaptcha()
+    },
+    computed: {
+      newInputVal () {
+        return this.dataForm.passwordInput
+      }
+    },
+    watch: {
+      newInputVal (val) {
+        // let key = '123456789'
+        this.dataForm.password = Base64.decode(val)
+      }
     },
     methods: {
       // 提交表单
@@ -94,6 +121,24 @@
           }
         })
       },
+      generaNewPwd () {
+        // this.dataForm.encodeInputType = 'password'
+        // this.$refs.passwordEncodeFocus.focus()
+        // this.dataForm.inputType = 'text'
+        // this.$refs.inputPassword.type = 'text'
+        // this.dataForm.pdFlag = false
+        // this.dataForm.pdEncodeFlag = true
+        // let key = '123456789'
+        this.dataForm.passwordInput = Base64.encode(this.dataForm.password)
+        // console.log(this.dataForm.password)
+      },
+      // onChangeDeal () {
+      //   let inputVal = this.dataForm.passwordInput
+      //   this.dataForm.password = inputVal
+      //   this.dataForm.passwordInput = this.dataForm.passwordInput.replace(/./g, '*')
+      // },
+      // onFocusDeal () {
+      // },
       // 获取验证码
       getCaptcha () {
         this.dataForm.uuid = getUUID()

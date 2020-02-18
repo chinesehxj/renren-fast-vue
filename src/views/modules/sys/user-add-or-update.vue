@@ -12,7 +12,7 @@
       </el-form-item>
       <el-form-item label="密码" prop="password" :class="{ 'is-required': !dataForm.id }">
         <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
-        <p>密码长度需为8到16位之间,并且需要包含数字、大写字母、小写字母</p>
+        <p style="color:red;font-size:12px;">密码长度需为8到16位之间,并且需要包含数字、大写字母、小写字母</p>
       </el-form-item>
       <el-form-item label="确认密码" prop="comfirmPassword" :class="{ 'is-required': !dataForm.id }" >
         <el-input v-model="dataForm.comfirmPassword" type="password" placeholder="确认密码"></el-input>
@@ -22,6 +22,10 @@
       </el-form-item>
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="dataForm.mobile" placeholder="手机号"></el-input>
+      </el-form-item>
+      <el-form-item label="白名单IP" prop="ipAddress">
+        <el-input type="textarea" maxlength="1500" v-model="dataForm.ipAddress" placeholder="白名单IP"></el-input>
+        <p style="color:red;font-size:12px;">如有多个IP,请以半角逗号分隔,例:192.168.0.1,192.168.0.2</p>
       </el-form-item>
       <el-form-item label="所属机构" prop="companyId">
         <el-select v-model="dataForm.companyId" filterable placeholder="请选择(支持搜索)">
@@ -95,6 +99,13 @@
           callback()
         }
       }
+      var validateIpAddress = (rule, value, callback) => {
+        if (!this.dataForm.ipAddress && !/\S/.test(value)) {
+          callback(new Error('白名单IP不能为空'))
+        } else {
+          callback()
+        }
+      }
       return {
         visible: false,
         roleList: [],
@@ -108,6 +119,7 @@
           salt: '',
           email: '',
           mobile: '',
+          ipAddress: '',
           companyId: '',
           roleIdList: [],
           status: 1
@@ -139,6 +151,10 @@
           companyId: [
             { required: true, message: '所属机构不能为空', trigger: 'blur' },
             { validator: validateCompanyId, trigger: 'blur' }
+          ],
+          ipAddress: [
+            { required: true, message: '白名单IP不能为空', trigger: 'blur' },
+            { validator: validateIpAddress, trigger: 'blur' }
           ]
         }
       }
@@ -178,6 +194,7 @@
                 this.dataForm.salt = data.user.salt
                 this.dataForm.email = data.user.email
                 this.dataForm.mobile = data.user.mobile
+                this.dataForm.ipAddress = data.user.ipAddress
                 this.dataForm.roleIdList = data.user.roleIdList
                 this.dataForm.status = data.user.status
                 this.dataForm.companyId = data.user.companyId
@@ -201,6 +218,7 @@
                 'salt': this.dataForm.salt,
                 'email': this.dataForm.email,
                 'mobile': this.dataForm.mobile,
+                'ipAddress': this.dataForm.ipAddress,
                 'status': this.dataForm.status,
                 'roleIdList': this.dataForm.roleIdList,
                 'companyId': this.dataForm.companyId

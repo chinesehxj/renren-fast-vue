@@ -54,6 +54,13 @@
         label="手机号">
       </el-table-column>
       <el-table-column
+        prop="ipAddress"
+        header-align="center"
+        align="center"
+        :show-overflow-tooltip="true"
+        label="白名单IP">
+      </el-table-column>
+      <el-table-column
         prop="status"
         header-align="center"
         align="center"

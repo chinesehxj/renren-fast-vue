@@ -38,9 +38,13 @@
           <el-col :xs="12" :sm="12" :lg="12">
             <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
               <i class="iconfont el-icon-dms-lixian" style="color:#6699FF;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">下线告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.offlineCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
+              <i class="iconfont el-icon-dms-neicun" style="color:blue;font-size:16px;margin-left:15px;"></i>
+              <span class="card-panel-text" style="margin-left:5px;">内存使用率过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.memUseCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
             <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
-              <i class="iconfont el-icon-dms-cpu1" style="color:green;font-size:20px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">CPU温度过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
+              <i class="iconfont el-icon-dms-cpu1" style="color:green;font-size:20px;margin-left:15px;"></i>
+              <span class="card-panel-text" style="margin-left:5px;">CPU温度过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
+              <span class="card-panel-text" style="margin-left:5px;">使用率过高告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.cpuUseCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
             </div>
             <div class="card-panel-location" style="margin-top:5px; margin-bottom:0px;">
               <i class="iconfont el-icon-dms-xuniyingpan" style="color:orange;font-size:16px;margin-left:15px;"></i><span class="card-panel-text" style="margin-left:5px;">磁盘可用空间过低告警</span><span style="font-size:18px; color: red; margin-left:2px;">{{fourCount.diskCautionCount}}</span><span class="card-panel-text" style="margin-left:2px;">次</span>
@@ -50,6 +54,21 @@
         </div>
       </el-col>
     </el-row>
+<!-- 2019-4-3 新增修改换用条形堆叠图展示 -->
+<el-row class="panel-group" :gutter="40">
+      <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
+        <div  @click="handleRouterPush('list')">
+          <ve-bar :data="vebarChartData" :settings="vebarSetting" :legend-visible="false" :xAxis="xAxisSetting" :tooltip="tooltipSetting" height="50px"></ve-bar>
+        </div>
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
+        <div  @click="handleRouterPush('list')">
+          <ve-bar :data="vebarCoutionData" :settings="vebarCoutionSetting" :legend-visible="false" :xAxis="xAxisSetting" :tooltip="tooltipSetting" height="50px"></ve-bar>
+        </div>
+      </el-col>
+
+</el-row>
+
     <div v-loading="dataListLoading">
       <el-row style="background:#fff;margin-bottom:10px;" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
         <div v-if="index % 2 == 0">
@@ -239,7 +258,9 @@
           totalCautionCount: 0,
           diskCautionCount: 0,
           offlineCautionCount: 0,
-          cpuCautionCount: 0
+          cpuCautionCount: 0,
+          cpuUseCautionCount: 0,
+          memUseCautionCount: 0
         },
         serverInfo: '',
         dataListLoading: false,
@@ -250,7 +271,42 @@
           tableData: []
         },
         servers: [],
-        serverListVisible: false
+        serverListVisible: false,
+        vebarChartData: {
+          columns: ['状态', '在线数', '离线数'],
+          rows: []
+        },
+        vebarCoutionData: {
+          columns: ['告警数', '下线告警', 'CPU温过高', 'CPU使用率过高', '内存使用率过高', '磁盘可用空间不足'],
+          rows: []
+        },
+        vebarSetting: {
+          stack: {
+            'xxx': ['在线数', '离线数']
+          }
+        },
+        vebarCoutionSetting: {
+          stack: {
+            'aa': ['下线告警', 'CPU温过高', 'CPU使用率过高', '内存使用率过高', '磁盘可用空间不足']
+          }
+        },
+        xAxisSetting: {
+          show: false
+        },
+        yAxisSetting: {
+          show: false,
+          type: 'category',
+          data: ['在线数', '离线数'],
+          axisLine: {
+            show: false
+          }
+        },
+        tooltipSetting: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'none'
+          }
+        }
       }
     },
     mounted () {
@@ -287,6 +343,12 @@
                 this.fourCount.diskCautionCount = data.info.diskCautionCount
                 this.fourCount.cpuCautionCount = data.info.cpuCautionCount
                 this.fourCount.offlineCautionCount = data.info.offlineCautionCount
+                this.fourCount.cpuUseCautionCount = data.info.cpuUseCautionCount
+                this.fourCount.memUseCautionCount = data.info.memUseCautionCount
+                this.vebarChartData.rows = []
+                this.vebarChartData.rows.push({ '状态': '状态统计', '在线数': data.info.onlineCount, '离线数': data.info.offlineCount })
+                this.vebarCoutionData.rows = []
+                this.vebarCoutionData.rows.push({ '告警数': '告警数', '下线告警': data.info.offlineCautionCount, 'CPU温过高': data.info.cpuCautionCount, 'CPU使用率过高': data.info.cpuUseCautionCount, '内存使用率过高': data.info.memUseCautionCount, '磁盘可用空间不足': data.info.diskCautionCount })
               } else {}
             })
             // 获取每个服务器数据
@@ -302,6 +364,7 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.servers = []
+                console.log(data.info)
                 for (var i = 0; i < data.info.length; i++) {
                   this.serverInfo = data.info[i]
                   this.charData(data.info[i].Processor)

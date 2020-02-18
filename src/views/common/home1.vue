@@ -68,8 +68,214 @@
       </el-col>
 
 </el-row>
-
-    <div v-loading="dataListLoading">
+<el-row :gutter="20">
+  <!-- <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>设备在线离线状态</span>
+      </div>
+      <el-table
+        :data="statDataList"
+        border
+        v-loading="dataListLoading"
+        style="width: 100%; ">
+        <el-table-column
+          prop="id"
+          header-align="center"
+          align="center"
+          v-if="false"
+          width="60"
+          label="ID">
+        </el-table-column>
+        <el-table-column
+          prop="carrierpsn"
+          header-align="center"
+          align="center"
+          width="80"
+          label="PSN">
+        </el-table-column>
+        <el-table-column
+          prop="companyName"
+          header-align="center"
+          align="center"
+          width="120"
+          label="机构名称">
+        </el-table-column>
+        <el-table-column
+          prop="roomName"
+          header-align="center"
+          align="center"
+          width="120"
+          label="机房名">
+        </el-table-column>
+        <el-table-column
+          prop="frameName"
+          header-align="center"
+          align="center"
+          width="120"
+          label="机柜名(编号)">
+        </el-table-column>
+        <el-table-column
+          prop="serverCode"
+          header-align="center"
+          align="center"
+          width="120"
+          label="服务器名(编号)">
+        </el-table-column>
+        <el-table-column
+          prop="owners"
+          header-align="center"
+          align="center"
+          label="负责人">
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          header-align="center"
+          align="center"
+          label="类别">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.status === 0" size="small" type="danger">存储</el-tag>
+            <el-tag v-else size="small">服务器</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="isOnline"
+          header-align="center"
+          align="center"
+          label="状态">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.isOnline === 0" size="small" type="danger">下线</el-tag>
+            <el-tag v-else size="small">在线</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="sizeChangeHandle"
+        @current-change="currentChangeHandle"
+        :current-page="pageIndex"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="pageSize"
+        :total="totalPage"
+        layout="total, sizes, prev, pager, next, jumper">
+      </el-pagination>
+    </el-card>
+  </el-col> -->
+  <el-col :xs="24" :sm="24" :lg="24" class="card-panel-col">
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>设备在线状态与告警数一览</span>
+        <el-radio-group size="mini" v-model="cautionText" @change="selectCaution" style="float:right;">
+          <el-radio-button label=''>全部</el-radio-button>
+          <el-radio-button label='下线'>下线</el-radio-button>
+          <el-radio-button label='内存使用率过高'>内存使用率过高</el-radio-button>
+          <el-radio-button label='CPU温度过高'>CPU温度过高</el-radio-button>
+          <el-radio-button label='CPU使用率过高'>CPU使用率过高</el-radio-button>
+          <el-radio-button label='磁盘可用空间过低'>磁盘可用空间过低</el-radio-button>
+        </el-radio-group>
+      </div>
+      <el-table
+        :data="cautionDataList"
+        border
+        :row-class-name="tableRowClassName"
+        v-loading="cautionDataListLoading"
+        @sort-change='tableSortChange'
+        :default-sort = "{prop: 'companyName', order: 'ascending'}"
+        style="width: 100%; ">
+        <el-table-column
+          prop="id"
+          header-align="center"
+          align="center"
+          v-if="false"
+          width="60"
+          label="ID">
+        </el-table-column>
+        <el-table-column
+          prop="carrierpsn"
+          header-align="center"
+          align="center"
+          width="80"
+          label="PSN">
+        </el-table-column>
+        <el-table-column
+          prop="companyName"
+          header-align="center"
+          align="center"
+          sortable="custom"
+          label="机构名称">
+        </el-table-column> 
+        <el-table-column
+          prop="roomName"
+          header-align="center"
+          align="center"
+          label="机房名">
+        </el-table-column>
+        <el-table-column
+          prop="frameName"
+          header-align="center"
+          align="center"
+          label="机柜名(编号)">
+        </el-table-column>
+        <el-table-column
+          prop="serverName"
+          header-align="center"
+          align="center"
+          label="服务器名">
+        </el-table-column>
+        <el-table-column
+          prop="serverCode"
+          header-align="center"
+          align="center"
+          label="自定义名(编号)">
+        </el-table-column>
+        <el-table-column
+          prop="owners"
+          header-align="center"
+          align="center"
+          label="负责人">
+        </el-table-column>
+        <el-table-column
+          prop="status"
+          header-align="center"
+          align="center"
+          width="80"
+          label="类别">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.status === 0" size="small" type="danger">存储</el-tag>
+            <el-tag v-else size="small">服务器</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="isOnline"
+          header-align="center"
+          align="center"
+          width="80"
+          label="状态">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.isOnline === 0" size="small" type="danger">下线</el-tag>
+            <el-tag v-else size="small">在线</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="cautionCount"
+          header-align="center"
+          align="center"
+          width="80"
+          label="告警数">
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="cautionSizeChangeHandle"
+        @current-change="cautionCurrentChangeHandle"
+        :current-page="cautionPageIndex"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="cautionPageSize"
+        :total="cautionTotalPage"
+        layout="total, sizes, prev, pager, next, jumper">
+      </el-pagination>
+    </el-card>
+  </el-col>
+</el-row>
+    <!-- <div v-loading="dataListLoading">
       <el-row style="background:#fff;margin-bottom:10px;" :gutter="10" v-for="(serItem,index) in servers"  :key="index">
         <div v-if="index % 2 == 0">
           <el-col :xs="24" :sm="24" :lg="12" style="margin-top:10px;" :key="index">
@@ -236,8 +442,8 @@
         </el-col>
       </el-row>
     </div>
-    <server-list v-if="serverListVisible" ref="showServerList" @refreshDataList="getDataList(false)"></server-list>
-  </div>
+    <server-list v-if="serverListVisible" ref="showServerList" @refreshDataList="getDataList(false)"></server-list>-->
+  </div> 
 </template>
 
 <script>
@@ -262,8 +468,19 @@
           cpuUseCautionCount: 0,
           memUseCautionCount: 0
         },
+        // statDataList: [],
+        // pageIndex: 1,
+        // pageSize: 10,
+        // totalPage: 0,
+        cautionDataList: [],
+        cautionPageIndex: 1,
+        cautionPageSize: 10,
+        cautionTotalPage: 0,
+        cautionText: '',
         serverInfo: '',
-        dataListLoading: false,
+        orderSeq: 'asc',
+        // dataListLoading: false,
+        cautionDataListLoading: false,
         carrierPSNList: '',
         cpuChartData: {
           xAxisName: [],
@@ -320,11 +537,14 @@
     methods: {
       // 获取首页数据
       getDataList (intervalFlag) {
-        console.log(new Date())
+        // console.log(new Date())
         this.$http({
-          url: this.$http.adornUrl('/home/getSummariseData'),
+          url: this.$http.adornUrl('/home/getAllServerPSNListForMapBoard'),
           method: 'get',
-          params: this.$http.adornParams({}, false)
+          params: this.$http.adornParams({
+            'pageIndex': '',
+            'pageSize': ''
+          }, false)
         }).then(({data}) => {
           if (data && data.code === 0) {
             this.carrierPSNList = data.info
@@ -349,30 +569,94 @@
                 this.vebarChartData.rows.push({ '状态': '状态统计', '在线数': data.info.onlineCount, '离线数': data.info.offlineCount })
                 this.vebarCoutionData.rows = []
                 this.vebarCoutionData.rows.push({ '告警数': '告警数', '下线告警': data.info.offlineCautionCount, 'CPU温过高': data.info.cpuCautionCount, 'CPU使用率过高': data.info.cpuUseCautionCount, '内存使用率过高': data.info.memUseCautionCount, '磁盘可用空间不足': data.info.diskCautionCount })
+                // this.getServerList()
+                this.getCautionList()
               } else {}
-            })
-            // 获取每个服务器数据
-            if (!intervalFlag) {
-              this.dataListLoading = true
-            }
-            this.$http({
-              url: this.$http.adornUrl('/home/getCpuUseRate'),
-              method: 'post',
-              data: this.$http.adornData({
-                'carrierPSNList': data.info
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.servers = []
-                for (var i = 0; i < data.info.length; i++) {
-                  this.serverInfo = data.info[i]
-                  this.charData(data.info[i].Processor)
-                }
-              } else {}
-              this.dataListLoading = false
             })
           }
         })
+      },
+      // getServerList () {
+      //   this.dataListLoading = true
+      //   this.$http({
+      //     url: this.$http.adornUrl('/home/getAllServerInfoAndStat'),
+      //     method: 'get',
+      //     params: this.$http.adornParams({
+      //       'carrierpsn': this.carrierPSNList,
+      //       'pageIndex': this.pageIndex,
+      //       'pageSize': this.pageSize
+      //     }, false)
+      //   }).then(({data}) => {
+      //     if (data && data.code === 0) {
+      //       this.statDataList = data.page.list
+      //       this.totalPage = data.page.totalCount
+      //       this.dataListLoading = false
+      //     } else {
+      //       this.dataListLoading = false
+      //     }
+      //   })
+      // },
+      tableSortChange (column) {
+        if (column.order === 'descending') {
+          this.orderSeq = 'desc'
+        } else {
+          this.orderSeq = 'asc'
+        }
+        this.getCautionList()
+      },
+      getCautionList () {
+        this.cautionDataListLoading = true
+        this.$http({
+          url: this.$http.adornUrl('/home/getAllServerStatAndCautionList'),
+          method: 'get',
+          params: this.$http.adornParams({
+            'cautionText': this.cautionText,
+            'carrierpsn': this.carrierPSNList,
+            'orderSeq': this.orderSeq,
+            'pageIndex': this.cautionPageIndex,
+            'pageSize': this.cautionPageSize
+          }, false)
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            // console.log('cautionCount', data)
+            this.cautionDataList = data.page.list
+            this.cautionTotalPage = data.page.totalCount
+            this.cautionDataListLoading = false
+          } else {
+            this.cautionDataListLoading = false
+          }
+        })
+      },
+      tableRowClassName ({row, rowIndex}) {
+        if (row.isOnline === 0 || row.cautionCount !== 0) {
+          return 'warning-row'
+        }
+        return ''
+      },
+      selectCaution () {
+        this.getCautionList()
+      },
+      // // 每页数
+      // sizeChangeHandle (val) {
+      //   this.pageSize = val
+      //   this.pageIndex = 1
+      //   this.getDataList()
+      // },
+      // // 当前页
+      // currentChangeHandle (val) {
+      //   this.pageIndex = val
+      //   this.getDataList()
+      // },
+      // 每页数
+      cautionSizeChangeHandle (val) {
+        this.cautionPageSize = val
+        this.cautionPageIndex = 1
+        this.getDataList()
+      },
+      // 当前页
+      cautionCurrentChangeHandle (val) {
+        this.cautionPageIndex = val
+        this.getDataList()
       },
       removeServer (psnNo) {
         this.$confirm(`确定要移除吗?`, '提示', {
@@ -444,7 +728,14 @@
     }
   }
 </script>
-
+<style>
+  .el-table .warning-row {
+    background: rgba(251, 247, 5, 0.72);
+  }
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+</style>
 <style rel="stylesheet/scss" lang="scss" scoped>
   .mod-home {
     line-height: 1.5;
